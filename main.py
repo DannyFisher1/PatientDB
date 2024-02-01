@@ -10,7 +10,7 @@ with open('create_table.sql', 'r') as file:
 with open('insert.sql', 'r') as file:
     insert_query = file.read()
 
-workbook_path = 'Prelim25Cases_Database CC Case Data Collection_Tool 10.19.23.xlsx'
+workbook_path = '/Users/dannyfisher/Desktop/Code/PatientDB/Casualty Case Template FINAL -- updated 01:22.xlsx'
 workbook = openpyxl.load_workbook(workbook_path, data_only=True)
 
 
