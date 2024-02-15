@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS patient_cases (
-       case_id INTEGER,
+    case_id INTEGER,
     arrival_severity TEXT,
     gender TEXT,
     age INTEGER,
