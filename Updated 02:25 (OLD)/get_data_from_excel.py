@@ -3,14 +3,14 @@ import openpyxl
 from mapping import map
 import os
 import datetime
-import pandas
+import pandas as pd
 
 with open('create_table.sql', 'r') as file:
     create_table_query = file.read()
 with open('insert.sql', 'r') as file:
     insert_query = file.read()
 
-workbook_path = '/Users/dannyfisher/Desktop/Code/PatientDB/Casualty Case Template FINAL -- updated 01:22.xlsx'
+workbook_path = 'New cases 0223.xlsx'
 workbook = openpyxl.load_workbook(workbook_path, data_only=True)
 
 
@@ -27,18 +27,24 @@ cursor = conn.cursor()
 cursor.execute(create_table_query)
 def extract_data_from_sheet(sheet):
     return [sheet.cell(row=pos[0], column=pos[1]).value for field, pos in map.items()]
+data_list = []
 
-num_pages = int(input("Enter the number of pages you want to parse: "))
+for sheet_name in workbook.sheetnames:
+    if sheet_name[0] in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
+        sheet = workbook[sheet_name]
+        case_data = extract_data_from_sheet(sheet)
+        data_list.append(case_data)
+        if len(case_data) != insert_query.count('?'):
+            print(f"Mismatch between number of placeholders and data in sheet {sheet_name}. Skipping.")
+            continue
 
-for sheet_name in workbook.sheetnames[:num_pages]:
-    sheet = workbook[sheet_name]
-    case_data = extract_data_from_sheet(sheet)
-    placeholder_count = insert_query.count('?')
-    print(f"Number of placeholders in insert_query: {placeholder_count}")
-    print(f"Number of items in case_data: {len(case_data)}")
-    print(case_data)
-    cursor.execute(insert_query, case_data)
-   
+        try:
+            cursor.execute(insert_query, case_data)
+        except Exception as e:
+            print(f"Error inserting data for sheet {sheet_name}: {e}")
+            continue
 conn.commit()
 conn.close()
 
+df = pd.DataFrame(data_list)
+print(df.head()) 

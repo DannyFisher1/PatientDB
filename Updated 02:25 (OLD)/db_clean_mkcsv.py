@@ -2,7 +2,7 @@ import pandas as pd
 import sqlite3
 
 conn = sqlite3.connect('patient_cases.db' )
-query = "SELECT * FROM patient_cases WHERE case_id > 25;"
+query = "SELECT * FROM patient_cases WHERE first_bed_type IS NOT NULL;"
 df = pd.read_sql_query(query, conn)
 
 cleaned = df[[
@@ -19,6 +19,10 @@ cleaned = df[[
     "tenth_bed_type", "tenth_bed_hours"
 ]]
 conn.close()
-print(cleaned.iloc[75]) 
+cleaned['case_id'] = pd.to_numeric(cleaned['case_id'], errors='coerce')
+cleaned.dropna(subset=['case_id'], inplace=True)
+cleaned['case_id'] = cleaned['case_id'].astype(int)
+
+
 cleaned.to_csv("cleaned_patient_data.csv", index = False)
 df.to_csv("patient_data.csv", index = False)
