@@ -72,7 +72,7 @@ def get_data(xl):
     ]]
 
     print("Exporting cleaned data to CSV...")
-    cleaned.to_csv("cleaned_patient_data.csv", index=False)
-    df.to_csv("patient_data.csv", index=False)
+    cleaned.to_csv("csv/cleaned_patient_data.csv", index=False)
+    df.to_csv("csv/patient_data.csv", index=False)
     print("All operations completed successfully.")
     return cleaned
