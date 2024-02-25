@@ -50,7 +50,7 @@ def get_data(xl):
     print("Data insertion complete.")
 
     print("Extracting and cleaning data...")
-    query = "SELECT DISTINCT * FROM patient_cases WHERE first_bed_type IS NOT NULL AND first_bed_type <> 0;"
+    query = "SELECT DISTINCT * FROM patient_cases WHERE first_bed_type IS NOT NULL AND first_bed_type <> 0 AND first_bed_PRIMARY IS NOT NULL;"
     df = pd.read_sql_query(query, conn)
     #fix numbers
     df['case_id'] = df['case_id'].apply(lambda x: x.split()[0] if isinstance(x, str) else x)
@@ -68,7 +68,9 @@ def get_data(xl):
         "seventh_bed_type", "seventh_bed_hours", 
         "eighth_bed_type", "eighth_bed_hours", 
         "ninth_bed_type", "ninth_bed_hours", 
-        "tenth_bed_type", "tenth_bed_hours"
+        "tenth_bed_type", "tenth_bed_hours",
+        'first_bed_PRIMARY','first_bed_SECONDARY',
+        'first_bed_TERTIARY'
     ]]
 
     print("Exporting cleaned data to CSV...")

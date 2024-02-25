@@ -3,5 +3,6 @@ from cases import get_info
 
 if __name__ == '__main__':
     workbook_path = 'New cases 0223.xlsx'
-    df = get_data(workbook_path)
-    get_info(df)
+    data = get_data(workbook_path)
+    df =  get_info(data)
+    print(df)
