@@ -31,29 +31,30 @@ def get_data(xl):
 
     def extract_data_from_sheet(sheet):
         return [sheet.cell(row=pos[0], column=pos[1]).value for field, pos in map.items()]
-
     print("Processing sheets...")
     for sheet_name in workbook.sheetnames:
         if sheet_name[0] in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
-            sheet = workbook[sheet_name]
-            case_data = extract_data_from_sheet(sheet)
-            if len(case_data) != insert_query.count('?'):
-                print(f"Mismatch in sheet {sheet_name}. Skipping.")
-                continue
-
-            try:
-                cursor.execute(insert_query, case_data)
-                print(f"Data from sheet {sheet_name} inserted successfully.")
-            except Exception as e:
-                print(f"Error in sheet {sheet_name}: {e}")
-                continue
+                sheet = workbook[sheet_name]
+                case_data = extract_data_from_sheet(sheet)
+                if len(case_data) != insert_query.count('?'):
+                    print(f"Mismatch in sheet {sheet_name}. Skipping.")
+                    continue
+                try:
+                    cursor.execute(insert_query, case_data)
+                    print(f"Data from sheet {sheet_name} inserted successfully.")
+                except Exception as e:
+                    print(f"Error in sheet {sheet_name}: {e}")
+                    continue
 
     conn.commit()
     print("Data insertion complete.")
 
     print("Extracting and cleaning data...")
-    query = "SELECT * FROM patient_cases WHERE first_bed_type IS NOT NULL AND first_bed_type <> 0;"
+    query = "SELECT DISTINCT * FROM patient_cases WHERE first_bed_type IS NOT NULL AND first_bed_type <> 0;"
     df = pd.read_sql_query(query, conn)
+    #fix numbers
+    df['case_id'] = df['case_id'].apply(lambda x: x.split()[0] if isinstance(x, str) else x)
+
     conn.close()
 
     cleaned = df[[
