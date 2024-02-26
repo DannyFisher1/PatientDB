@@ -134,6 +134,8 @@ def match_spec(df):
 
     return results
 
+import logging
+
 def find_common_facilities(df):
     beds = match_bed(df)
     specs = match_spec(df)
@@ -153,8 +155,16 @@ def find_common_facilities(df):
                 })
     for result in common_results:
         if 'Severity' in result:
-            result['Severity'] = str(result['Severity']).upper()        
+            result['Severity'] = str(result['Severity']).upper()
+    
+    # Logging
+    if not common_results:
+        logging.warning("No matching facilities found.")
+    elif not common_results[0]['Common Recommended Facilities']:
+        logging.warning("No common recommended facilities found for the given cases.")
+    
     return common_results
+
 
 import pandas as pd
 

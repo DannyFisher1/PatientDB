@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to PatientDB</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container py-5">
+        <h1 class="mb-4 text-center">Patient Matching</h1>
+        <div class="row row-cols-1 row-cols-md-3 g-4 text-center">
+            <div class="col">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-header">Upload Data</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Start by uploading patient data files.</h5>
+                        <p class="card-text">
+                            <a href="/upload" class="btn btn-light mt-2">Upload</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header">View Stats</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Review the statistical analysis of the data.</h5>
+                        <p class="card-text">
+                            <a href="/stats" class="btn btn-light mt-2">Stats</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-header">Critical Cases</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Examine the outcomes of critical patient cases.</h5>
+                        <p class="card-text">
+                            <a href="/critical" class="btn btn-light mt-2">Critical</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+</body>
+</html>
