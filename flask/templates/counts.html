@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counts Display</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl7/1L8DZ+O//kCUn3z2z3Uk2CbfJETfHKHrJqc3jb" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col">
+                <h1 class="mb-4">Facility Possibilities</h1>
+                {% if counts %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">Facility</th>
+                                    <th scope="col">Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for count in counts %}
+                                    <tr>
+                                        <td>{{ count.Facility }}</td>
+                                        <td>{{ count.Count }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p>No facility data available.</p>
+                {% endif %}
+            </div>
+            <div class="col">
+                <h1 class="mb-4">Critical Possibilities</h1>
+                {% if critical %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">Facility</th>
+                                    <th scope="col">Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for crit in critical %}
+                                    <tr>
+                                        <td>{{ crit.Facility }}</td>
+                                        <td>{{ crit.Count }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p>No critical data available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js" integrity="sha384-lpyRXogS6Uk3iEXe4Dtr7W2z2rdwGZ5Akn4Z4LlF3zSZ5VdWBnh3FzA9mCR6A9Js" crossorigin="anonymous"></script>
+</body>
+</html>
