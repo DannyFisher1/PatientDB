@@ -22,7 +22,7 @@ def make_session_not_permanent():
 
 @app.route('/', methods=['GET'])
 def base():
-    return render_template('landing.html')  # Assume landing.html is your new landing page template
+    return render_template('landing.html')
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
