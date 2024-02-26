@@ -54,7 +54,7 @@ def get_data(xl):
     df = pd.read_sql_query(query, conn)
     #fix numbers
     df['case_id'] = df['case_id'].apply(lambda x: x.split()[0] if isinstance(x, str) else x)
-
+    
     conn.close()
 
     cleaned = df[[
@@ -72,7 +72,7 @@ def get_data(xl):
         'first_bed_PRIMARY','first_bed_SECONDARY',
         'first_bed_TERTIARY'
     ]]
-
+    
     print("Exporting cleaned data to CSV...")
     cleaned.to_csv("csv/cleaned_patient_data.csv", index=False)
     df.to_csv("csv/patient_data.csv", index=False)

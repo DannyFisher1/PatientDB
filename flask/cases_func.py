@@ -1,6 +1,12 @@
 import pandas as pd
 
 def match_bed(df):
+    bed_type_replacements = {
+        "Long-term Care Facility": "Post_Acute_Care",
+        "Medical Hotel/Equivalent": "Post_Acute_Care",
+        "Skilled Nursing Facility (SNF)": "Post_Acute_Care",
+        "Rehabilitation Hospital": "Acute Rehabilitation Unit (ARU)"
+    }
     bed_data = {
         "Bed Type": ["Med/Surg", "ICU/Critical Care", "Psych", "Post_Acute_Care", "Burn", "Burn ICU", "Isolation", "Acute Rehabilitation Unit (ARU)"],
         "Georgetown": [1, 1, 1, 0, 0, 0, 0, 1],
@@ -22,6 +28,9 @@ def match_bed(df):
         "VHC": [1, 1, 1, 1, 0, 0, 1, 0]
     }
     bed_type_columns = ['first_bed_type', 'second_bed_type', 'third_bed_type', 'fourth_bed_type']
+    for column in bed_type_columns:
+        if column in df.columns:
+            df[column] = df[column].map(bed_type_replacements).fillna(df[column])
     results = []
 
     for case_id in df['case_id'].unique():
@@ -183,3 +192,4 @@ def is_critical(cases):
     facility_counts_df = pd.DataFrame(list(facility_counts.items()), columns=['Facility', 'Count'])
     sorted_df = facility_counts_df.sort_values(by='Count', ascending=False)
     return sorted_df
+

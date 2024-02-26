@@ -4,8 +4,11 @@ from werkzeug.utils import secure_filename
 from cases import get_info
 import cases_func as cf
 from convert_patient_data import get_data
+from sort_patients import get_crit_facilities
 import os
 import pandas as pd
+
+
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
@@ -19,6 +22,7 @@ def allowed_file(filename):
 
 @app.route('/', methods=['GET'])
 def base():
+    
     return render_template('upload.html')
 
 
@@ -33,24 +37,32 @@ def upload_file():
         filename = secure_filename(file.filename)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
-        
+    
         # Process the file using get_data function
         data_df = get_data(filepath)
         # Process the DataFrame to get the desired information using get_info
         results = get_info(data_df)
+        if isinstance(results, pd.DataFrame):
+            session['results'] = results.to_dict('records')
+        else:
+            session['results'] = results 
         counts = cf.facility_amounts(results)
         critical = cf.is_critical(results)
-
-
+        case_outcomes, updated_bed_counts = get_crit_facilities(results)
         if isinstance(counts, pd.DataFrame):
             session['counts'] = counts.to_dict('records')
         else:
-            session['counts'] = counts  # Assuming 'counts' is already in a serializable format
+            session['counts'] = counts 
+        if isinstance(case_outcomes, pd.DataFrame):
+            session['case_outcomes'] = case_outcomes.to_dict('records')
+        else:
+            session['case_outcomes'] = case_outcomes 
 
         if isinstance(critical, pd.DataFrame):
-            session['critical'] = critical.to_dict('records')  # Corrected to use 'critical'
+            session['critical'] = critical.to_dict('records') 
         else:
-            session['critical'] = critical  # Assuming 'critical' is already in a serializable format
+            session['critical'] = critical
+        
 
         for result in results:
             if 'Bed Typed Needed' in result:
@@ -64,9 +76,7 @@ def upload_file():
     else:
         return jsonify({'error': 'File not allowed'}), 400
     
-@app.route('/stats')
-
-
+@app.route('/stats', methods=['GET'])
 def display_counts():
     if 'counts' not in session or 'critical' not in session or not session['counts'] or not session['critical']:
         flash("No data available. Please ensure file data is uploaded correctly.", "warning")
@@ -75,16 +85,18 @@ def display_counts():
     # Both 'counts' and 'critical' data are present; proceed to extract them
     counts = session['counts']
     critical = session['critical']
-    
-    # Debug prints can be commented out or removed in production
-    print("Counts:", counts)
-    print("Critical:", critical)
 
     # Render template with both counts and critical data
     return render_template('counts.html', counts=counts, critical=critical)
-
-
-
+@app.route('/crit')
+def crit():
+    if 'case_outcomes' not in session or not session['case_outcomes']:
+        flash("No data available. Please ensure file data is uploaded correctly.", "warning")
+        return redirect(url_for('upload_file'))
+    case_outcomes = session['case_outcomes']
+    print(case_outcomes)
+    return render_template('critical.html', case_outcomes= case_outcomes)
+#    case_outcomes, updated_bed_counts = get_crit_facilities(results)
 
 if __name__ == '__main__':
     app.run(debug=True)

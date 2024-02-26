@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Critical Cases Assignments</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Critical Cases Assignment Results</h2>
+
+    <!-- Assigned Cases -->
+    <div class="mb-5">
+        <h3>Assigned Cases</h3>
+        <div class="list-group">
+            {% for case in case_outcomes if case.Assigned %}
+                <a href="#" class="list-group-item list-group-item-action">
+                    Case ID: {{ case['Case ID'] }} - Assigned to {{ case['Facility'] }}
+                </a>
+            {% else %}
+                <p class="text-muted">No cases were assigned.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Unassigned Cases -->
+    <div class="mb-5">
+        <h3>Unassigned Cases</h3>
+        <div class="list-group">
+            {% for case in case_outcomes if not case.Assigned %}
+                <a href="#" class="list-group-item list-group-item-action list-group-item-danger">
+                    Case ID: {{ case['Case ID'] }} - {{ case['Reason'] }}
+                </a>
+            {% else %}
+                <p class="text-muted">All cases have been successfully assigned.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
