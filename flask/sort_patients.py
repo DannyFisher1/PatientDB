@@ -19,7 +19,7 @@ def get_crit_facilities(cases):
         "FairOaks": [10, 1, 0, 3, 0, 0, 1, 0],
         "FFX": [53, 10, 4, 0, 0, 0, 11, 0],
         "Loudoun": [12, 1, 2, 3, 0, 0, 1, 0],
-        "MaryWash": [27, 4, 7, 2, 0, 2, 0, 1],
+        "MaryWash": [27, 4, 7, 2, 0, 0, 0, 1],
         "Mount Vernon": [10, 3, 3, 5, 0, 0, 1, 2],
         "Novant": [6, 1, 3, 2, 0, 0, 0, 2],
         "Spotsylvania": [4, 2, 3, 2, 0, 0, 1, 0],

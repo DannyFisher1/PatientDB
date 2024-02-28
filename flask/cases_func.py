@@ -1,11 +1,21 @@
 import pandas as pd
-
+import logging
 def match_bed(df):
     bed_type_replacements = {
         "Long-term Care Facility": "Post_Acute_Care",
         "Medical Hotel/Equivalent": "Post_Acute_Care",
+        "medical Hotel/Equivalent": "Post_Acute_Care",
         "Skilled Nursing Facility (SNF)": "Post_Acute_Care",
-        "Rehabilitation Hospital": "Acute Rehabilitation Unit (ARU)"
+        "skilled nursing facility (snf)": "Post_Acute_Care",
+        "Rehabilitation Hospital": "Acute Rehabilitation Unit (ARU)",
+        "burn icu": "Burn ICU",
+        "burn": "Burn",
+        "acute rehabilitation unit (aru)": "Acute Rehabilitation Unit (ARU)",
+        "icu/critical care": "ICU/Critical Care",
+        "med/surg": "Med/Surg",
+        "rehabilitation hospital" : "Acute Rehabilitation Unit (ARU)",
+        "long-term care facility": "Post_Acute_Care"
+        
     }
     bed_data = {
         "Bed Type": ["Med/Surg", "ICU/Critical Care", "Psych", "Post_Acute_Care", "Burn", "Burn ICU", "Isolation", "Acute Rehabilitation Unit (ARU)"],
@@ -20,7 +30,7 @@ def match_bed(df):
         "FairOaks": [1, 1, 0, 1, 0, 0, 1, 0],
         "FFX": [1, 1, 1, 0, 0, 0, 1, 0],
         "Loudoun": [1, 1, 1, 1, 0, 0, 1, 0],
-        "MaryWash": [1, 1, 1, 1, 0, 1, 0, 1],
+        "MaryWash": [1, 1, 1, 1, 0, 0, 0, 1],
         "MountVernon": [1, 1, 1, 1, 0, 0, 1, 1],
         "Novant": [1, 1, 1, 1, 0, 0, 0, 1],
         "Spotsylvania": [1, 1, 1, 1, 0, 0, 1, 0],
@@ -97,7 +107,7 @@ def match_spec(df):
     "Stafford": [0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1],
     "VHC": [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1]
     }
-    spec_type_columns=['first_bed_PRIMARY','second_bed_PRIMARY','third_bed_PRIMARY','fourth_bed_PRIMARY']
+    spec_type_columns=['first_bed_PRIMARY','second_bed_PRIMARY','third_bed_PRIMARY','second_bed_PRIMARY', 'second_bed_SECONDARY', 'second_bed_TERTIARY', 'third_bed_PRIMARY', 'third_bed_SECONDARY', 'third_bed_TERTIARY']
     results = []
 
     for case_id in df['case_id'].unique():
@@ -107,8 +117,10 @@ def match_spec(df):
         for spec_type in spec_type_columns:
             if spec_type in case_data.columns:
                 spec_type_value = case_data.iloc[0][spec_type]
-                if pd.notna(spec_type_value):
+                if pd.notna(spec_type_value) and spec_type_value not in spec_types_for_case:
                     spec_types_for_case.append(spec_type_value)
+
+        spec_types_for_case = list(set(spec_types_for_case))  # Ensure uniqueness
 
         matched_facilities = []
         all_facilities = list(spec_data.keys())[1:]  # Exclude "spec" from keys to get facility names
@@ -123,7 +135,7 @@ def match_spec(df):
                         break
             if facility_suitable:
                 matched_facilities.append(facility)
-        
+
         # Append results for this case to the list
         results.append({
             "Case ID": case_id,
@@ -133,8 +145,6 @@ def match_spec(df):
         })
 
     return results
-
-import logging
 
 def find_common_facilities(df):
     beds = match_bed(df)

@@ -6,6 +6,15 @@
     <title>Results</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .sticky-header th {
+            position: -webkit-sticky; /* For Safari */
+            position: sticky;
+            top: 0;
+            background-color: #fff;
+            z-index: 1020;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -34,12 +43,14 @@
         <h2 class="mb-3">Case Data</h2>
         <div id="results">
             <h2 class="mb-3">Matched Cases</h2>
-            <table class="table">
+            <table class="table sticky-header">
                 <thead>
                     <tr>
                         <th>Case ID</th>
-                        <th>Severity</th>
-                        <th>Common Recommended Facilities</th>
+                        <th>Arrival Severity</th>
+                        <th>Bed Type(s) Needed</th>
+                        <th>Specialty/Specialties Needed</th>
+                        <th>Adequate HCF</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,10 +59,21 @@
                             <td>{{ item['Case ID'] }}</td>
                             <td>{{ item['Severity'] }}</td>
                             <td>
+                                {% for facility in item['Bed Typed Needed'] %}
+                                    {{ facility }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for facility in item['Specialties Needed'] %}
+                                    {{ facility }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
                                 {% for facility in item['Common Recommended Facilities'] %}
                                     {{ facility }}{% if not loop.last %}, {% endif %}
                                 {% endfor %}
                             </td>
+
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -69,13 +91,24 @@
                     {% for item in unmatched_results %}
                         <tr>
                             <td>{{ item['Case ID'] }}</td>
+                            <td>{{ item['Severity'] }}</td>
+                            <td>
+                                {% for facility in item['Bed Typed Needed'] %}
+                                    {{ facility }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for facility in item['Specialties Needed'] %}
+                                    {{ facility }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
                             <td>No common recommended facilities found for the given case.</td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-        <button class="btn btn-primary mt-3" onclick="window.location.href='/'">Upload Another File</button>
+        <button class="btn btn-primary mt-3" onclick="window.location.href='/upload'">Upload Another File</button>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

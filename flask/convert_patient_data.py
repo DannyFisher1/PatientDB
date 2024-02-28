@@ -70,11 +70,44 @@ def get_data(xl):
         "ninth_bed_type", "ninth_bed_hours", 
         "tenth_bed_type", "tenth_bed_hours",
         'first_bed_PRIMARY','first_bed_SECONDARY',
-        'first_bed_TERTIARY'
+        'first_bed_TERTIARY','second_bed_PRIMARY',
+        'second_bed_SECONDARY','second_bed_TERTIARY',
+        'third_bed_PRIMARY','third_bed_SECONDARY',
+        'third_bed_TERTIARY' 
     ]]
-    
+    full_sequence = cleaned.copy()
+# List of bed types to exclude
+    exclude_bed_types = ['pediatrics', 'nicu', 'obstetrics', 'rehabilitation hospital', 
+                        'skilled nursing facility (snf)', 'long-term care facility', 
+                        'medical hotel/equivalent', 'post_acute_care']
+
+    # Bed type columns and corresponding specialty columns
+    bed_type_columns = ['first_bed_type', 'second_bed_type', 'third_bed_type']
+    specialty_columns = [
+        ['first_bed_PRIMARY', 'first_bed_SECONDARY', 'first_bed_TERTIARY'],
+        ['second_bed_PRIMARY', 'second_bed_SECONDARY', 'second_bed_TERTIARY'],
+        ['third_bed_PRIMARY', 'third_bed_SECONDARY', 'third_bed_TERTIARY']
+    ]
+
+    # Function to process both bed types and their specialties
+    def process_bed_types_and_specialties(row):
+        for bed_col, specialty_cols in zip(bed_type_columns, specialty_columns):
+            # Normalize and check if the bed type should be excluded
+            if isinstance(row[bed_col], str) and row[bed_col].lower().strip() in exclude_bed_types:
+                row[bed_col] = None  # Exclude the bed type
+                # Also exclude the associated specialties
+                for spec_col in specialty_cols:
+                    row[spec_col] = None
+        return row
+
+    # Apply the function to each row of the DataFrame
+    cleaned = full_sequence.apply(process_bed_types_and_specialties, axis=1)
+
+
+
     print("Exporting cleaned data to CSV...")
     cleaned.to_csv("csv/cleaned_patient_data.csv", index=False)
     df.to_csv("csv/patient_data.csv", index=False)
+    full_sequence.to_csv("csv/full_sequence.csv", index=False)
     print("All operations completed successfully.")
     return cleaned

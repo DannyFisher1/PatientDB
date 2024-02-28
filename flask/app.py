@@ -26,6 +26,7 @@ def base():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
+    session.clear()
     if request.method == 'POST':
         file = request.files.get('file')
         if not file or file.filename == '':
