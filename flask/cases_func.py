@@ -1,5 +1,6 @@
 import pandas as pd
 import logging
+
 def match_bed(df):
     bed_type_replacements = {
         "Long-term Care Facility": "Post_Acute_Care",
@@ -13,10 +14,10 @@ def match_bed(df):
         "acute rehabilitation unit (aru)": "Acute Rehabilitation Unit (ARU)",
         "icu/critical care": "ICU/Critical Care",
         "med/surg": "Med/Surg",
-        "rehabilitation hospital" : "Acute Rehabilitation Unit (ARU)",
+        "rehabilitation hospital": "Acute Rehabilitation Unit (ARU)",
         "long-term care facility": "Post_Acute_Care"
-        
     }
+
     bed_data = {
         "Bed Type": ["Med/Surg", "ICU/Critical Care", "Psych", "Post_Acute_Care", "Burn", "Burn ICU", "Isolation", "Acute Rehabilitation Unit (ARU)"],
         "Georgetown": [1, 1, 1, 0, 0, 0, 0, 1],
@@ -37,10 +38,13 @@ def match_bed(df):
         "Stafford": [1, 1, 0, 1, 0, 0, 0, 0],
         "VHC": [1, 1, 1, 1, 0, 0, 1, 0]
     }
+
     bed_type_columns = ['first_bed_type', 'second_bed_type', 'third_bed_type', 'fourth_bed_type']
+
     for column in bed_type_columns:
         if column in df.columns:
             df[column] = df[column].map(bed_type_replacements).fillna(df[column])
+
     results = []
 
     for case_id in df['case_id'].unique():
@@ -107,7 +111,9 @@ def match_spec(df):
     "Stafford": [0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1],
     "VHC": [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1]
     }
+
     spec_type_columns=['first_bed_PRIMARY','second_bed_PRIMARY','third_bed_PRIMARY','second_bed_PRIMARY', 'second_bed_SECONDARY', 'second_bed_TERTIARY', 'third_bed_PRIMARY', 'third_bed_SECONDARY', 'third_bed_TERTIARY']
+    
     results = []
 
     for case_id in df['case_id'].unique():
@@ -150,6 +156,7 @@ def find_common_facilities(df):
     beds = match_bed(df)
     specs = match_spec(df)
     common_results = []
+    
     for bed in beds:
         for spec in specs:
             if bed['Case ID'] == spec['Case ID']:
@@ -174,9 +181,6 @@ def find_common_facilities(df):
         logging.warning("No common recommended facilities found for the given cases.")
     
     return common_results
-
-
-import pandas as pd
 
 def facility_amounts(common_results):
     facility_counts = {}

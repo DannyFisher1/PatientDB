@@ -19,7 +19,6 @@ map= {
     'tertiary_injury_type': (14, 3),
     'medical_complications': (15, 3),
     'disposition': (16, 3),
-
     'first_bed_med_status': (20, 4),
     'first_bed_type': (23, 4),
     'first_bed_hours': (25, 4),
@@ -33,7 +32,6 @@ map= {
     'first_bed_OTHER_SPECIAL_1': (37, 4),
     'first_bed_OTHER_SPECIAL_2': (38, 4),
     'first_bed_OTHER_SPECIAL_3': (39, 4),
-
     'second_bed_med_status': (20, 7),
     'second_bed_type': (23, 7),
     'second_bed_hours': (25, 7),
@@ -47,7 +45,6 @@ map= {
     'second_bed_OTHER_SPECIAL_1': (37, 7),
     'second_bed_OTHER_SPECIAL_2': (38, 7),
     'second_bed_OTHER_SPECIAL_3': (39, 7),
-
     'third_bed_med_status': (20, 10),
     'third_bed_type': (23, 10),
     'third_bed_hours': (25, 10),
@@ -61,7 +58,6 @@ map= {
     'third_bed_OTHER_SPECIAL_1': (37, 10),
     'third_bed_OTHER_SPECIAL_2': (38, 10),
     'third_bed_OTHER_SPECIAL_3': (39, 10),
-
     'fourth_bed_med_status': (20, 13),
     'fourth_bed_type': (23, 13),
     'fourth_bed_hours': (25, 13),
@@ -75,7 +71,6 @@ map= {
     'fourth_bed_OTHER_SPECIAL_1': (35, 13),
     'fourth_bed_OTHER_SPECIAL_2': (36, 13),
     'fourth_bed_OTHER_SPECIAL_3': (37, 13),   
-
     'fifth_bed_med_status': (20, 16),
     'fifth_bed_type': (23, 16),
     'fifth_bed_hours': (25, 16),
@@ -89,7 +84,6 @@ map= {
     'fifth_bed_OTHER_SPECIAL_1': (37, 16),
     'fifth_bed_OTHER_SPECIAL_2': (38, 16),
     'fifth_bed_OTHER_SPECIAL_3': (39, 16),
-
     'sixth_bed_med_status': (45, 4),
     'sixth_bed_type': (48, 4),
     'sixth_bed_hours': (50, 4),
@@ -103,7 +97,6 @@ map= {
     'sixth_bed_OTHER_SPECIAL_1': (62, 4),
     'sixth_bed_OTHER_SPECIAL_2': (63, 4),
     'sixth_bed_OTHER_SPECIAL_3': (64, 4),
-
     'seventh_bed_med_status': (45, 7),
     'seventh_bed_type': (48, 7),
     'seventh_bed_hours': (50, 7),
@@ -117,7 +110,6 @@ map= {
     'seventh_bed_OTHER_SPECIAL_1': (62, 7),
     'seventh_bed_OTHER_SPECIAL_2': (63, 7),
     'seventh_bed_OTHER_SPECIAL_3': (64, 7),    
-
     'eighth_bed_med_status': (45, 10),
     'eighth_bed_type': (48, 10),
     'eighth_bed_hours': (50, 10),
@@ -131,8 +123,6 @@ map= {
     'eighth_bed_OTHER_SPECIAL_1': (62, 10),
     'eighth_bed_OTHER_SPECIAL_2': (63, 10),
     'eighth_bed_OTHER_SPECIAL_3': (64, 10),
-
-
     'ninth_bed_med_status': (45, 13),
     'ninth_bed_type': (48, 13),
     'ninth_bed_hours': (50, 13),
@@ -146,8 +136,6 @@ map= {
     'ninth_bed_OTHER_SPECIAL_1': (62, 13),
     'ninth_bed_OTHER_SPECIAL_2': (63, 13),
     'ninth_bed_OTHER_SPECIAL_3': (64, 13),
-
-
     'tenth_bed_med_status': (45, 16),
     'tenth_bed_type': (48, 31),
     'tenth_bed_hours': (50, 31),
@@ -161,6 +149,7 @@ map= {
     'tenth_bed_OTHER_SPECIAL_1': (62, 16),
     'tenth_bed_OTHER_SPECIAL_2': (63, 16),
     'tenth_bed_OTHER_SPECIAL_3': (64, 16)
+    
 }
 
 

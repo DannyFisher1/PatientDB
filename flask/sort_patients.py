@@ -32,10 +32,15 @@ def get_crit_facilities(cases):
     critical_cases = [case for case in cases if case['Severity'] == 'CRITICAL']
     logging.info(f'Amount of Critical Cases: {len(critical_cases)}')
 
-    case_outcomes = []  # This will store the outcomes for each case
+    case_outcomes = []  # Stores outcomes for each case
 
     for case in critical_cases:
-        case_result = {"Case ID": case['Case ID'], "Assigned": False, "Facility": None, "Reason": None}
+        case_result = {
+            "Case ID": case['Case ID'], 
+            "Assigned": False, 
+            "Facility": None, 
+            "Reason": None
+        }
         needed_bed_types = case['Bed Typed Needed']
         recommended_facilities = case['Common Recommended Facilities']
         
@@ -50,11 +55,17 @@ def get_crit_facilities(cases):
 
         if not case_result["Assigned"]:
             case_result["Reason"] = "No facility has all needed bed types available."
-            logging.warning(f"Case ID {case['Case ID']} could not be assigned to any facility. Reason: {case_result['Reason']}")
+            logging.warning(
+                f"Case ID {case['Case ID']} could not be assigned to any facility. "
+                "Reason: {case_result['Reason']}"
+            )
 
         case_outcomes.append(case_result)
 
-    logging.info("Unassigned Cases: " + ", ".join([str(cid["Case ID"]) for cid in case_outcomes if not cid["Assigned"]]))
-    logging.info("\nUpdated Bed Counts:\n" + str(bed_counts))
+    logging.info(
+        "Unassigned Cases: " + 
+        ", ".join([str(cid["Case ID"]) for cid in case_outcomes if not cid["Assigned"]])
+    )
+    logging.info(f"\nUpdated Bed Counts:\n{bed_counts}")
 
     return case_outcomes, bed_counts
