@@ -1,0 +1,146 @@
+Case ID,Bed Types Needed,Recommended Facilities bed,Severity
+1,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",moderate
+2,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",serious
+4,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Moderate
+5,"['Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Serious
+6,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Moderate
+7,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",mild
+8,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",moderate
+9,['Burn'],['WHC'],moderate
+10,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",serious
+26,"['Burn ICU', 'Burn', 'Acute Rehabilitation Unit (ARU)']",[],Critical
+27,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Critical
+28,"['ICU/Critical Care', 'Med/Surg', 'ICU/Critical Care']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Critical
+29,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Moderate
+30,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Critical
+31,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Moderate
+32,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+33,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+34,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+35,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Critical
+36,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Minor
+37,"['Burn ICU', 'Burn']",['WHC'],Serious
+38,"['ICU/Critical Care', 'Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Serious
+39,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Minor
+40,"['Med/Surg', 'Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Moderate
+41,"['Burn ICU', 'Burn']",['WHC'],Critical
+42,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Minor
+43,"['Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Minor
+44,"['Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Minor
+45,"['Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Serous
+46,"['Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Moderate
+47,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Critical
+48,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Moderate
+049,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",moderate
+50,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",moderate
+51,"['ICU/Critical Care', 'Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Moderate
+52,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",moderate
+53,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",serious
+54,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Moderate
+55,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+56,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+57,"['Burn ICU', 'Burn', 'Med/Surg', 'Acute Rehabilitation Unit (ARU)']",[],Serious
+58,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",moderate
+59,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Moderate
+60,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Moderate
+61,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",serious
+62,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",severe
+63,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Minor
+64,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",severe
+65,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",severe
+67,"['Burn ICU', 'Burn']",['WHC'],Serious
+68,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Minor
+69,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Moderate
+70,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+71,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Minor
+72,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+73,"['ICU/Critical Care', 'Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Serious
+74,"['Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Moderate
+75,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Moderate
+76,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Moderate
+77,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Severe
+78,"['ICU/Critical Care', 'Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Severe
+79,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",serious
+80,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",critical
+81,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",moderate
+82,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",moderate
+83,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",moderate
+84,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",moderate
+85,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",critical
+86,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",moderate
+87,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",serious
+88,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",moderate
+89,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Moderate
+90,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Moderate
+91,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Moderate
+92,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+93,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+94,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Severe
+95,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+96,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+97,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+98,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Severe
+99,['Burn'],['WHC'],Moderate
+100,"['Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Serious
+101,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",severe
+102,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",serious
+103,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",moderate
+104,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",moderate
+105,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",moderate
+106,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Minor
+107,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Minor
+108,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Minor
+109,"['Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Moderate
+110,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Minor
+111,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+112,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Minor
+113,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Minor
+114,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Moderate
+115,"['ICU/Critical Care', 'Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Serious
+116,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Minor
+117,"['Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Moderate
+118,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Minor
+119,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Moderate
+120,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Minor
+121,"['Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Moderate
+122,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+123,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Minor
+124,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Moderate
+125,"['Burn ICU', 'Burn']",['WHC'],Critical
+126,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Minor
+127,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+128,"['Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Serious
+129,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Minor
+130,"['ICU/Critical Care', 'Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Serious
+131,"['ICU/Critical Care', 'Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Severe
+132,"['ICU/Critical Care', 'Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Severe
+133,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Severe
+134,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Severe
+135,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+136,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Severe
+137,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Moderate
+138,"['ICU/Critical Care', 'Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Severe
+139,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+140,"['Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Severe
+141,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",moderate
+144,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",minor
+145,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",minor
+146,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",moderate
+147,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",minor
+148,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",moderate
+149,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",severe
+150,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",minor
+151,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",severe
+152,"['ICU/Critical Care', 'Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",Severe
+153,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",minor
+154,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",severe
+155,"['ICU/Critical Care', 'Med/Surg', 'Acute Rehabilitation Unit (ARU)']","['Georgetown', 'GWU', 'Sibley', 'Reston', 'MaryWash', 'MountVernon', 'Novant']",critical
+165,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+166,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+167,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+168,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+169,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Severe
+170,"['ICU/Critical Care', 'Med/Surg']","['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+171,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Severe
+172,['Med/Surg'],"['Georgetown', 'GWU', 'Howard', 'WHC', 'Sibley', 'Reston', 'Fauquier', 'FairOaks', 'FFX', 'Loudoun', 'MaryWash', 'MountVernon', 'Novant', 'Spotsylvania', 'Stafford', 'VHC']",Serious
+173,['Burn ICU'],['WHC'],Critical

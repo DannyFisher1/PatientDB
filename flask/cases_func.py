@@ -79,6 +79,11 @@ def match_bed(df):
             "Severity": case_data['arrival_severity'].iloc[0]
         })
 
+    print("Exporting cleaned data to CSV...")
+    results.to_csv("bed_matching_data.csv", index=False)
+        
+    
+
     return results
 
 
