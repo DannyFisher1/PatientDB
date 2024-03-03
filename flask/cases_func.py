@@ -78,12 +78,7 @@ def match_bed(df):
             "Recommended Facilities bed": matched_facilities,
             "Severity": case_data['arrival_severity'].iloc[0]
         })
-
-    print("Exporting cleaned data to CSV...")
-    results.to_csv("bed_matching_data.csv", index=False)
         
-    
-
     return results
 
 
@@ -117,7 +112,7 @@ def match_spec(df):
     "VHC": [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1]
     }
 
-    spec_type_columns=['first_bed_PRIMARY','second_bed_PRIMARY','third_bed_PRIMARY','second_bed_PRIMARY', 'second_bed_SECONDARY', 'second_bed_TERTIARY', 'third_bed_PRIMARY', 'third_bed_SECONDARY', 'third_bed_TERTIARY']
+    spec_type_columns=['first_bed_PRIMARY','first_bed_SECONDARY', 'first_bed_TERTIARY', 'second_bed_PRIMARY','third_bed_PRIMARY','second_bed_PRIMARY', 'second_bed_SECONDARY', 'second_bed_TERTIARY', 'third_bed_PRIMARY', 'third_bed_SECONDARY', 'third_bed_TERTIARY']
     
     results = []
 
