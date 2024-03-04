@@ -4,6 +4,7 @@ from cases import get_info
 import cases_func as cf
 from convert_patient_data import get_data
 from sort_patients import get_crit_facilities
+import load_balance as lb
 import os
 import pandas as pd
 
@@ -55,6 +56,7 @@ def process_file(filepath):
     session['counts'] = counts if not isinstance(counts, pd.DataFrame) else counts.to_dict('records')
     session['critical'] = critical if not isinstance(critical, pd.DataFrame) else critical.to_dict('records')
     session['case_outcomes'] = case_outcomes if not isinstance(case_outcomes, pd.DataFrame) else case_outcomes.to_dict('records')
+    session['beds'] = beds if not isinstance(beds, pd.DataFrame) else beds.to_dict('records')
 
 
 @app.route('/results', methods=['GET'])
@@ -84,12 +86,26 @@ def display_counts():
 
 @app.route('/critical', methods=['GET'])
 def display_critical():
-    if 'case_outcomes' not in session or not session['case_outcomes']:
+    if 'case_outcomes' not in session or 'beds' not in session or not session['case_outcomes'] or not session['beds']:
         flash("No data available. Please ensure file data is uploaded correctly.", "warning")
         return redirect(url_for('upload_file'))
-    
+
     case_outcomes = session['case_outcomes']
-    return render_template('critical.html', case_outcomes=case_outcomes)
+    beds = session['beds']  
+    initial_bed_data_raw = lb.data 
+
+
+    initial_bed_data = {}
+    bed_types = initial_bed_data_raw['Bed Type']  
+
+    for facility, counts in initial_bed_data_raw.items():
+        if facility == 'Bed Type':
+            continue  
+        initial_bed_data[facility] = {bed_types[i]: count for i, count in enumerate(counts)}
+
+    
+    return render_template('critical.html', case_outcomes=case_outcomes, initial_bed_data=initial_bed_data, beds=beds)
+
 
 
 if __name__ == '__main__':

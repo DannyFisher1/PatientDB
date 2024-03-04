@@ -4,62 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Critical Cases Assignments</title>
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">PatientDB</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/results">View Data</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/stats">Statistics</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/critical">Critical Cases<span class="sr-only">(current)</span></a>
-                </li>
-            </ul>
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">PatientDB</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/results">View Data</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/stats">Statistics</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/critical">Critical Cases<span class="visually-hidden">(current)</span></a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
-<div class="container mt-5">
-    <h2 class="mb-4">Critical Cases Assignment Results</h2>
 
-    <!-- Assigned Cases -->
-    <div class="mb-5">
-        <h3>Assigned Cases</h3>
-        <div class="list-group">
-            {% for case in case_outcomes if case.Assigned %}
-                <a href="#" class="list-group-item list-group-item-action">
-                    Case ID: {{ case['Case ID'] }} - Assigned to {{ case['Facility'] }}
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h2 class="mb-4">Critical Cases Assignment Results</h2>
+
+        <!-- Assigned Cases -->
+        <div class="mb-5">
+            <h3>Assigned Cases</h3>
+            <div class="list-group">
+                {% for case in case_outcomes if case.Assigned %}
+                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <span>Case ID: {{ case['Case ID'] }} - Assigned to {{ case['Facility'] }}</span>
+                    <span><b>Travel Time:</b> {{ case['Travel Time'] }}min</span>
                 </a>
-            {% else %}
+                {% else %}
                 <p class="text-muted">No cases were assigned.</p>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
-    </div>
 
-    <!-- Unassigned Cases -->
-    <div class="mb-5">
-        <h3>Unassigned Cases</h3>
-        <div class="list-group">
-            {% for case in case_outcomes if not case.Assigned %}
+        <!-- Unassigned Cases -->
+        <div class="mb-5">
+            <h3>Unassigned Cases</h3>
+            <div class="list-group">
+                {% for case in case_outcomes if not case.Assigned %}
                 <a href="#" class="list-group-item list-group-item-action list-group-item-danger">
                     Case ID: {{ case['Case ID'] }} - {{ case['Reason'] }}
                 </a>
-            {% else %}
+                {% else %}
                 <p class="text-muted">All cases have been successfully assigned.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Bed Count Comparison -->
+    <div class="container mt-5">
+        <div class="mt-5">
+            <h3>Bed Count Comparison</h3>
+            {% for facility, beds_info in beds.items() %}
+            <div class="card">
+                <div class="card-header" id="heading{{facility}}" data-toggle="collapse" data-target="#collapse{{facility}}" aria-expanded="true" aria-controls="collapse{{facility}}" style="cursor: pointer;">
+                    <h5 class="mb-0" >
+                        <small>  {{ facility }} </small>
+                    </h5>
+                </div>
+
+                <div id="collapse{{facility}}" class="collapse" aria-labelledby="heading{{facility}}">
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Bed Type</th>
+                                    <th>Initial Count</th>
+                                    <th>Current Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for bed_type, count in beds_info.items() %}
+                                <tr>
+                                    <td>{{ bed_type }}</td>
+                                    <td>{{ initial_bed_data[facility].get(bed_type, 0) }}</td>
+                                    <td>{{ count }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
             {% endfor %}
         </div>
     </div>
-</div>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
