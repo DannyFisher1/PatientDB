@@ -19,7 +19,7 @@ def get_data(xl):
     db_dir = 'database/patient_cases.db'
     if os.path.exists(db_dir):
         now = datetime.datetime.now()
-        db_dir_old = 'old_db_as_of_' + now.strftime("%Y-%m-%d_%H-%M-%S")
+        db_dir_old = 'database/old_db_as_of_' + now.strftime("%Y-%m-%d_%H-%M-%S")
         os.rename(db_dir, db_dir_old)
         print(f"Renamed existing database to: {db_dir_old}")
     else:
