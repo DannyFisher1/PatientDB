@@ -51,12 +51,13 @@ def process_file(filepath):
     results = get_info(data_df)
     counts = cf.facility_amounts(results)
     critical = cf.is_critical(results)
-    case_outcomes, beds = get_crit_facilities(results)
+    case_outcomes, beds, recs = get_crit_facilities(results)
     session['results'] = results if not isinstance(results, pd.DataFrame) else results.to_dict('records')
     session['counts'] = counts if not isinstance(counts, pd.DataFrame) else counts.to_dict('records')
     session['critical'] = critical if not isinstance(critical, pd.DataFrame) else critical.to_dict('records')
     session['case_outcomes'] = case_outcomes if not isinstance(case_outcomes, pd.DataFrame) else case_outcomes.to_dict('records')
     session['beds'] = beds if not isinstance(beds, pd.DataFrame) else beds.to_dict('records')
+    session['recs'] = recs if not isinstance(recs, pd.DataFrame) else recs.to_dict('records')
 
 
 @app.route('/results', methods=['GET'])
@@ -67,6 +68,8 @@ def display_results():
 
     results = session['results']
     matched_results = [result for result in results if result.get('Common Recommended Facilities')]
+
+
     unmatched_results = [result for result in results if not result.get('Common Recommended Facilities')]
 
     return render_template('results.html', matched_results=matched_results, unmatched_results=unmatched_results)
@@ -86,15 +89,17 @@ def display_counts():
 
 @app.route('/critical', methods=['GET'])
 def display_critical():
-    if 'case_outcomes' not in session or 'beds' not in session or not session['case_outcomes'] or not session['beds']:
+    if 'case_outcomes' not in session or 'beds' not in session  or 'recs' not in session or not session['case_outcomes'] or not session['beds'] or not session['recs']:
         flash("No data available. Please ensure file data is uploaded correctly.", "warning")
         return redirect(url_for('upload_file'))
 
     case_outcomes = session['case_outcomes']
     beds = session['beds']  
+    recs = session['recs']
+    print(recs)
     initial_bed_data_raw = lb.data 
-
-
+    sorted_cases = sorted(case_outcomes, key=lambda x: int(x['Travel Time']) if x['Assigned'] else float('inf'))
+    #print(sorted_cases)
     initial_bed_data = {}
     bed_types = initial_bed_data_raw['Bed Type']  
 
@@ -103,8 +108,12 @@ def display_critical():
             continue  
         initial_bed_data[facility] = {bed_types[i]: count for i, count in enumerate(counts)}
 
+    for case in recs:
+    # Sort the 'Facility' dictionary by its values (times) and create a new sorted dictionary
+        sorted_facilities = dict(sorted(case['Facility'].items(), key=lambda item: item[1]))
+        case['Facility'] = sorted_facilities
     
-    return render_template('critical.html', case_outcomes=case_outcomes, initial_bed_data=initial_bed_data, beds=beds)
+    return render_template('critical.html', sorted_cases=sorted_cases, initial_bed_data=initial_bed_data, beds=beds, recs = recs)
 
 
 

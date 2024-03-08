@@ -16,7 +16,7 @@ def get_crit_facilities(cases):
     logging.info(f'Amount of Critical Cases: {len(critical_cases)}')
 
     case_outcomes = []
-
+    recs = []
     for case in critical_cases:
         case_result = {
             "Case ID": case['Case ID'],
@@ -29,7 +29,15 @@ def get_crit_facilities(cases):
 
         recommended_facilities = case['Common Recommended Facilities']
         sorted_facilities = sorted(recommended_facilities, key=lambda x: transportation_times[x][selected_traffic_condition])
-
+        facilities_times = [(facility, transportation_times[facility][selected_traffic_condition]) for facility in sorted_facilities]
+        recs1 = {
+            "Case ID": case['Case ID'],
+            "Facility": dict(facilities_times),
+            'Specialties Needed': case['Specialties Needed'],
+            "Bed Types Needed": case['Bed Typed Needed']  # Assume this information is provided for each case
+        }
+        recs.append(recs1)
+        print(recs)
         for facility in sorted_facilities:
             needed_bed_types = case['Bed Typed Needed']
             if all(bed_counts.loc[bed_type, facility] > 0 for bed_type in needed_bed_types):
@@ -47,29 +55,29 @@ def get_crit_facilities(cases):
             logging.warning(f"Case ID {case['Case ID']} could not be assigned to any facility. Reason: {case_result['Reason']}")
 
         case_outcomes.append(case_result)
-
     logging.info("Unassigned Cases: " + ", ".join([str(cid["Case ID"]) for cid in case_outcomes if not cid["Assigned"]]))
     logging.info(f"\nUpdated Bed Counts:\n{bed_counts}")
     bed_counts = bed_counts.to_dict()
-    return case_outcomes, bed_counts
+    return case_outcomes, bed_counts, recs
 
 
 transportation_times = {
-    "Georgetown": {"Low": 30, "Medium": 45, "High": 60},
-    "GWU": {"Low": 35, "Medium": 50, "High": 65},
-    "Howard": {"Low": 40, "Medium": 55, "High": 70},
-    "NRH": {"Low": 25, "Medium": 40, "High": 55},
-    "WHC": {"Low": 32, "Medium": 47, "High": 62},
-    "Sibley": {"Low": 38, "Medium": 53, "High": 68},
-    "Reston": {"Low": 45, "Medium": 60, "High": 75},
-    "Fauquier": {"Low": 60, "Medium": 75, "High": 90},
-    "FairOaks": {"Low": 50, "Medium": 65, "High": 80},
-    "FFX": {"Low": 42, "Medium": 57, "High": 72},
-    "Loudoun": {"Low": 55, "Medium": 70, "High": 85},
-    "MaryWash": {"Low": 70, "Medium": 85, "High": 100},
-    "Mount Vernon": {"Low": 37, "Medium": 52, "High": 67},
-    "Novant": {"Low": 65, "Medium": 80, "High": 95},
-    "Spotsylvania": {"Low": 75, "Medium": 90, "High": 105},
-    "Stafford": {"Low": 60, "Medium": 75, "High": 90},
-    "VHC": {"Low": 34, "Medium": 49, "High": 64},
+    "Georgetown": {"Low": 40, "Medium": 45, "High": 55},
+    "GWU": {"Low": 35, "Medium": 40, "High": 53},
+    "Howard": {"Low": 34, "Medium": 40, "High": 50},
+    "NRH": {"Low": 35, "Medium": 45, "High": 55},
+    "WHC": {"Low": 35, "Medium": 44, "High": 53},
+    "Sibley": {"Low": 40, "Medium": 50, "High": 63},
+    "Reston": {"Low": 47, "Medium": 50, "High": 60},
+    "Fauquier": {"Low": 73, "Medium": 83, "High": 105},
+    "FairOaks": {"Low": 45, "Medium": 47, "High": 63},
+    "FFX": {"Low": 30, "Medium": 34, "High": 40},
+    "Loudoun": {"Low": 60, "Medium": 58, "High": 83},
+    "MaryWash": {"Low": 68, "Medium": 77, "High": 98},
+    "Mount Vernon": {"Low": 26, "Medium": 29, "High": 33},
+    "Novant": {"Low": 55, "Medium": 65, "High": 93},
+    "Spotsylvania": {"Low": 63, "Medium": 78, "High": 100},
+    "Stafford": {"Low": 58, "Medium": 60, "High": 88},
+    "VHC": {"Low": 35, "Medium": 44, "High": 50},
 }
+

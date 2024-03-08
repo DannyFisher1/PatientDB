@@ -41,7 +41,7 @@
     </nav>
     <div class="container mt-4">
         <h2 class="mb-3">Case Data</h2>
-        <div id="results">
+        <div>
             <h2 class="mb-3">Matched Cases</h2>
             <table class="table sticky-header">
                 <thead>
@@ -107,6 +107,45 @@
                     {% endfor %}
                 </tbody>
             </table>
+
+            <h2 class="mb-3">Critical Cases</h2>
+            <table class="table sticky-header">
+                <thead>
+                    <tr>
+                        <th>Case ID</th>
+                        <th>Arrival Severity</th>
+                        <th>Bed Type(s) Needed</th>
+                        <th>Specialty/Specialties Needed</th>
+                        <th>Adequate HCF</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in matched_results %}
+                        {% if item['Severity'] == 'CRITICAL' %}
+                            <tr>
+                                <td>{{ item['Case ID'] }}</td>
+                                <td>{{ item['Severity'] }}</td>
+                                 <td>
+                                    {% for facility in item['Bed Typed Needed'] %}
+                                        {{ facility }}{% if not loop.last %}, {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for facility in item['Specialties Needed'] %}
+                                        {{ facility }}{% if not loop.last %}, {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for facility in item['Common Recommended Facilities'] %}
+                                        {{ facility }}{% if not loop.last %}, {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            
         </div>
         <button class="btn btn-primary mt-3" onclick="window.location.href='/upload'">Upload Another File</button>
     </div>
