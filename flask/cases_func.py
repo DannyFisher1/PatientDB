@@ -92,7 +92,7 @@ def match_spec(df):
         "Intensive Daily OT", "Intensive Daily PT", "Prosthetics", "Neuro Rehab",
         "Orthopedics Rehab", "Mental Health Services - Medical (Psychiatrist)", "Mental Health Services - Therapist",
         "Visiting Nurse", "Home Health Aid (ADL)", "Wound Services", "Dialysis services",
-        "Infusion services", "Pain management services", "Surgical Center services", "Other Rehab"],
+        "Infusion services", "Pain management services", "Surgical Center services", "Other Rehab",],
     "Sibley": [0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1],
     "NRH": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     "Howard": [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1],

@@ -89,33 +89,32 @@ def display_counts():
 
 @app.route('/critical', methods=['GET'])
 def display_critical():
-    if 'case_outcomes' not in session or 'beds' not in session  or 'recs' not in session or not session['case_outcomes'] or not session['beds'] or not session['recs']:
+    # Check if necessary data is in session
+    if 'case_outcomes' not in session or 'beds' not in session or 'recs' not in session or not session['case_outcomes'] or not session['beds'] or not session['recs']:
         flash("No data available. Please ensure file data is uploaded correctly.", "warning")
         return redirect(url_for('upload_file'))
 
+    # Extract data from session
     case_outcomes = session['case_outcomes']
-    beds = session['beds']  
+    beds = session['beds']
     recs = session['recs']
-    print(recs)
-    initial_bed_data_raw = lb.data 
-    sorted_cases = sorted(case_outcomes, key=lambda x: int(x['Travel Time']) if x['Assigned'] else float('inf'))
-    #print(sorted_cases)
+
+    # This part seems to be preparation for another part of your app,
+    # converting initial bed data structure for use in the template
+    initial_bed_data_raw = lb.data
     initial_bed_data = {}
-    bed_types = initial_bed_data_raw['Bed Type']  
+    bed_types = initial_bed_data_raw['Bed Type']
 
     for facility, counts in initial_bed_data_raw.items():
-        if facility == 'Bed Type':
-            continue  
-        initial_bed_data[facility] = {bed_types[i]: count for i, count in enumerate(counts)}
+        if facility != 'Bed Type':  # Assuming 'Bed Type' is a key that doesn't represent a facility
+            initial_bed_data[facility] = {bed_types[i]: count for i, count in enumerate(counts)}
 
-    for case in recs:
-    # Sort the 'Facility' dictionary by its values (times) and create a new sorted dictionary
-        sorted_facilities = dict(sorted(case['Facility'].items(), key=lambda item: item[1]))
-        case['Facility'] = sorted_facilities
-    
-    return render_template('critical.html', sorted_cases=sorted_cases, initial_bed_data=initial_bed_data, beds=beds, recs = recs)
+    # Sorting cases by travel time for display; assumes 'Travel Time' is ground travel time
+    sorted_cases = sorted(case_outcomes, key=lambda x: int(x['Travel Time']) if x['Assigned'] else float('inf'))
 
+    # No need for facility mapping since we are using actual facility names
+    # Pass sorted cases, initial bed data, beds, and recommendations (recs) to the template
+    return render_template('critical.html', sorted_cases=sorted_cases, initial_bed_data=initial_bed_data, beds=beds, recs=recs)
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)

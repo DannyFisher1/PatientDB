@@ -21,6 +21,11 @@ data = {
         "VHC": [18, 3, 4, 2, 0, 0, 2, 2]
     }
 
+
+# Create a table to update the amount of speciatlies take up given the facility
+
+
+
 def update_bed_count_for_case(case_result, bed_counts):
     if case_result["Assigned"]:
         facility = case_result["Facility"]
@@ -33,3 +38,9 @@ def update_bed_count_for_case(case_result, bed_counts):
                 logging.warning(f"Attempted to assign a bed of type '{bed_type}' at '{facility}', but none were available.")
     
     return bed_counts
+
+
+# Check bed percents 
+# if bed.space >x% total space: 
+# pass 
+# switch facilities 
