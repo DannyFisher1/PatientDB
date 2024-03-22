@@ -1,4 +1,5 @@
 import logging
+from flask import session
 
 data = {
         "Bed Type": ["Med/Surg", "ICU/Critical Care", "Psych", "Post_Acute_Care", "Burn", "Burn ICU", "Isolation", "Acute Rehabilitation Unit (ARU)"],
@@ -21,23 +22,38 @@ data = {
         "VHC": [18, 3, 4, 2, 0, 0, 2, 2]
     }
 
+def change(beds):
+    beds = {facility: {data["Bed Type"][i]: counts[i] for i in range(len(data["Bed Type"]))} for facility, counts in data.items() if facility != "Bed Type"}
 
-# Create a table to update the amount of speciatlies take up given the facility
-
-
-
-def update_bed_count_for_case(case_result, bed_counts):
-    if case_result["Assigned"]:
-        facility = case_result["Facility"]
-        needed_bed_types = case_result["Bed Typed Needed"]
-        
-        for bed_type in needed_bed_types:
-            if bed_counts.at[bed_type, facility] > 0:
-                bed_counts.at[bed_type, facility] -= 1
-            else:
-                logging.warning(f"Attempted to assign a bed of type '{bed_type}' at '{facility}', but none were available.")
+def update_beds(placement):
+    if 'bd' not in session:
+        session['bd'] = data
     
-    return bed_counts
+    beds_data = session['bd']
+    facility = placement['facility']
+    bed_type = placement['bedType']
+    
+    if facility in beds_data:
+        bed_index = beds_data["Bed Type"].index(bed_type)
+        if beds_data[facility][bed_index] > 0:
+            print(f"Before update: {beds_data[facility][bed_index]} available beds of type {bed_type} at {facility}")
+            beds_data[facility][bed_index] -= 1
+            print(f"After update: {beds_data[facility][bed_index]} available beds of type {bed_type} at {facility}")
+            session['bd'] = beds_data  # Update the session with the modified counts
+            session.modified = True
+    else:
+        print("Facility not found in the data.")
+
+def check_beds(facility, bed_type):
+    if 'bd' not in session:
+        session['bd'] = data  
+    beds_data = session['bd']
+    if facility in beds_data:
+        bed_index = beds_data["Bed Type"].index(bed_type)
+        if beds_data[facility][bed_index] > 0:
+           return True
+    else:
+        return False
 
 
 # Check bed percents 

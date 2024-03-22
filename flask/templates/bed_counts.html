@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Bed Counts</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        padding-top: 20px;
+        background-color: #f8f9fa;
+      }
+      .container {
+        max-width: 960px;
+      }
+      .table th,
+      .table td {
+        vertical-align: middle;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">PatientDB</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/initial_results">View Data</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="/bed_counts">Bed Counts</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/results">Results</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <h1 class="mt-5">Bed Counts Matrix</h1>
+      <div class="matrix-table-responsive">
+        <table class="table table-bordered matrix-table">
+          <thead>
+            <tr>
+              <th scope="col">Facility / Bed Type</th>
+              {% for bed_type in bed_counts["Bed Type"] %}
+              <th scope="col" class="vertical-header">{{ bed_type }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for facility, counts in bed_counts.items() %} {% if facility !=
+            "Bed Type" %}
+            <tr>
+              <th scope="row">{{ facility }}</th>
+              {% for count in counts %}
+              <td>{{ count }}</td>
+              {% endfor %}
+            </tr>
+            {% endif %} {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -63,47 +63,31 @@ def get_crit_facilities(cases):
     logging.info("Unassigned Cases: " + ", ".join([str(cid["Case ID"]) for cid in case_outcomes if not cid["Assigned"]]))
     return case_outcomes, bed_counts.to_dict(), recs
 
-# Note: Ensure you have an `update_bed_count_for_case` function in your `lb` module that correctly updates bed counts.
-# Mock load_balance module content
-class load_balance:
-    data = {
-        'Bed Type': ['ICU', 'ICU', 'General', 'General', 'Emergency', 'Emergency'],
-        'Georgetown': [2, 3, 5, 5, 1, 2],
-        'GWU': [3, 2, 4, 4, 3, 1],
-        # Add similar data for other facilities...
-    }
+    #     for facility, times in facilities_times.items():
+    #         needed_bed_types = case['Bed Typed Needed']
+    #         # Check if the first needed bed type requires trauma level consideration
+    #         if needed_bed_types[0] in ['Med/Surg', 'ICU/Critical Care']:
+    #             trauma_level = trauma_level_dict.get(facility, None)
+    #             # Convert trauma level to "L1" or "L2"
+    #             if trauma_level is not None:
+    #                 case_result["Trauma Level"] = "L1" if trauma_level == 1 else "L2"
 
-    @staticmethod
-    def update_bed_count_for_case(case, bed_counts, facility):
-        # Simplified mock-up: Decrease the count of the needed bed type by 1
-        for bed_type in case['Bed Typed Needed']:
-            bed_counts[bed_type][facility] -= 1
-        return bed_counts
+    #         if all(bed_counts.loc[bed_type, facility] > 0 for bed_type in needed_bed_types):
+    #             case_result["Assigned"] = True
+    #             case_result["Facility"] = facility
+    #             case_result["Travel Time"] = times["Ground"]
+    #             bed_counts = lb.update_bed_count_for_case(case_result, bed_counts)
+    #             logging.info(f"Case ID {case['Case ID']} assigned to {facility} with ground travel time of {times['Ground']} minutes and trauma level {case_result['Trauma Level']}.")
+    #             break
 
-# Example critical cases
-cases = [
-    {
-        'Case ID': 1,
-        'Severity': 'CRITICAL',
-        'Common Recommended Facilities': ['Georgetown', 'GWU'],
-        'Bed Typed Needed': ['ICU'],
-        'Specialties Needed': ['Cardiology']
-    },
-    {
-        'Case ID': 2,
-        'Severity': 'CRITICAL',
-        'Common Recommended Facilities': ['Georgetown', 'GWU'],
-        'Bed Typed Needed': ['General'],
-        'Specialties Needed': ['Neurology']
-    },
-    # Add more cases as needed...
-]
+    #     if not case_result["Assigned"]:
+    #         case_result["Reason"] = "No facility has all needed bed types available."
+    #         logging.warning(f"Case ID {case['Case ID']} could not be assigned to any facility. Reason: {case_result['Reason']}")
 
-# Assuming the get_crit_facilities function is already defined as per the earlier instructions...
+    #     case_outcomes.append(case_result)
 
-# Print sample outputs
-case_outcomes, updated_bed_counts, recs = get_crit_facilities(cases)
+    # logging.info("Unassigned Cases: " + ", ".join([str(cid["Case ID"]) for cid in case_outcomes if not cid["Assigned"]]))
+    # logging.info(f"\nUpdated Bed Counts:\n{bed_counts}")
+    # bed_counts = bed_counts.to_dict()
 
-print("Case Outcomes:", case_outcomes)
-print("\nUpdated Bed Counts:", updated_bed_counts)
-print("\nRecommendations:", recs)
+    # return case_outcomes, bed_counts, recs

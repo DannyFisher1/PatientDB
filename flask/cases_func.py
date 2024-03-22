@@ -173,6 +173,10 @@ def find_common_facilities(df):
     for result in common_results:
         if 'Severity' in result:
             result['Severity'] = str(result['Severity']).upper()
+
+    severity_order = {"CRITICAL": 1, "SEVERE": 2, "MODERATE": 3, "SERIOUS": 4, "MINOR":5,  "MILD": 6}
+    common_results.sort(key=lambda x: severity_order.get(x['Severity'], 7))
+
     
     # Logging
     if not common_results:

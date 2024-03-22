@@ -1,79 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Critical Cases Assignments</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      .overlay {
+        background-color: #ffffff;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+      .confirm-btn {
+        z-index: 2;
+      }
+      .post-confirmed {
+        text-align: center;
+        padding: 5px;
+        font-size: 16px;
+        color: #333;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        
+      }
+    </style>
+  </head>
+  <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">PatientDB</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/results">View Data</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/stats">Statistics</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/critical">Critical Cases</a>
-                    </li>
-                </ul>
-            </div>
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">PatientDB</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/initial_results">View Data</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/bed_counts">Bed Counts</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="/results">Results</a>
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
 
     <!-- Main Content -->
     <div class="container mt-5">
-        <h3 class="mb-3">"Adequate" HCF for Critical Patients</h3>
-        <div class="row">
-            {% for case in recs %}
-                {% if case['Facilities']|length > 0 %}
-                    <div class="col-md-6 mb-4">
-                        <div class="card">
-                            <h5 class="card-header">Case ID: {{ case['Case ID'] }}</h5>
-                            <div class="card-body">
-                                <h6 class="card-title">Facilities:</h6>
-                                {% for facility, times in case['Facilities'].items() %}
-                                    <p class="card-text">
-                                        
-                                        <span class="badge badge-primary mr-1">{{ facility }}: {{ times['Ground'] }}min</span>
-                                        {% if times['Air'] > 0 %}
-                                            <span class="badge badge-info">{{ facility }}: {{ times['Air'] }}min</span>
-                                        {% endif %}
-                                    </p>
-                                {% endfor %}
-                                <a href="#caseDetails{{ case['Case ID'] }}" class="btn btn-primary" data-toggle="collapse" aria-expanded="false" aria-controls="caseDetails{{ case['Case ID'] }}">View Details</a>
-                            </div>
-                            <div class="collapse" id="caseDetails{{ case['Case ID'] }}">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Bed Types Needed: {{ case['Bed Types Needed']|join(", ") }}</li>
-                                    <li class="list-group-item">Specialties Needed: {{ case['Specialties Needed']|join(", ") }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-            {% else %}
-                <p class="text-muted">No recommendations available.</p>
-            {% endfor %}
+      <h3 class="mb-3">"Adequate" HCF for All Patients</h3>
+      <div class="row">
+        {% for case in recs %} {% if case["Facilities"]|length > 0 %}
+        <div class="col-md-6 mb-4">
+          <div class="card">
+            <h5 class="card-header">
+              Case ID: {{ case['Case ID'] }} - {{ case['Severity'] }}
+            </h5>
+            <div class="card-body">
+              {% if case.is_confirmed == True %}
+              
+              <div class="post-confirmed">Case {{ case['Case ID'] }} assigned to {{ case['confirmed_facility'] }} in a {{ case['Bed Types Needed'][0] }} bed with {{ case['mode'] }} transport with a {{ case['time'] }}min  travel time.</div>
+              {% else %}
+              <div
+                class="d-flex flex-column flex-md-row justify-content-between"
+              >
+                <div>
+                  <h6 class="card-title">Travel Times:</h6>
+                  {% for facility_info in case['Travel Time Ground'] %}
+                  <p class="card-text d-flex align-items-center">
+                    <span
+                      class="badge badge-primary mr-1"
+                      onclick="sendData('{{ facility_info[0] }}', '{{ case['Bed Types Needed'][0] }}', 'Ground', {{ facility_info[1]['Ground'] }}, this.closest('.card'), '{{ case['Case ID'] }}')"
+                      >{{ facility_info[0] }} (Ground): {{
+                      facility_info[1]['Ground'] }}min</span
+                    >
+                  </p>
+                  {% endfor %}
+                </div>
+                <div>
+                  <h6 class="card-title">
+                    &#8203;
+                    <!-- Non-breaking space to align Air times -->
+                  </h6>
+                  {% for facility_info in case['Travel Time Air'] %} {% if
+                  facility_info[1]['Air'] > 0 %}
+                  <p class="card-text d-flex align-items-center">
+                    <!-- Fixed: Added '{{ case['Case ID'] }}' to the 'sendData' function call -->
+                    <span
+                      class="badge badge-info"
+                      onclick="sendData('{{ facility_info[0] }}', '{{ case['Bed Types Needed'][0] }}', 'Air', {{ facility_info[1]['Air'] }}, this.closest('.card'), '{{ case['Case ID'] }}')"
+                      >{{ facility_info[0] }} (Air): {{ facility_info[1]['Air']
+                      }}min</span
+                    >
+                  </p>
+                  {% endif %} {% endfor %}
+                </div>
+              </div>
+              <br />
+              <a
+                href="#caseDetails{{ case['Case ID'] }}"
+                class="btn btn-primary"
+                data-toggle="collapse"
+                aria-expanded="false"
+                aria-controls="caseDetails{{ case['Case ID'] }}"
+                >View Details</a
+              >
+              <!-- Added Confirm Button Here -->
+              <button class="btn btn-success confirm-btn" style="display: none">
+                Confirm
+              </button>
+              {% endif %}
+            </div>
+            <div class="collapse" id="caseDetails{{ case['Case ID'] }}">
+              <div class="card-body">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    Bed Types Needed: {{ case['Bed Types Needed']|join(", ") }}
+                  </li>
+                  <li class="list-group-item">
+                    Specialties Needed: {{ case['Specialties Needed']|join(", ")
+                    }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
+        {% endif %} {% endfor %}
+      </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
+    <!-- Bootstrap JS and dependencies  -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+    <script>
+      function sendData(facility, bedType, mode, time, card, caseId) {
+        console.log(
+          "Facility: " +
+            facility +
+            ", Bed Type: " +
+            bedType +
+            ", Mode: " +
+            mode +
+            ", Time: " +
+            time +
+            ", Case ID: " +
+            caseId
+        );
+
+        const cardBody = card.querySelector(".card-body");
+        let overlay;
+
+        if (cardBody) {
+          cardBody.style.position = "relative";
+
+          overlay = document.createElement("div");
+          overlay.classList.add("overlay");
+          overlay.style.position = "absolute";
+          overlay.style.top = 0;
+          overlay.style.left = 0;
+          overlay.style.width = "100%";
+          overlay.style.height = "100%";
+          overlay.style.backgroundColor = "#FFFFFF";
+          overlay.style.zIndex = 1;
+          cardBody.appendChild(overlay);
+        } else {
+          console.error("Card body not found.");
+          return;
+        }
+
+        const confirmBtn = card.querySelector(".confirm-btn");
+        if (confirmBtn) {
+          confirmBtn.innerHTML =
+            "Confirm " + mode + " travel in " + time + " min";
+          confirmBtn.style.display = "block";
+          confirmBtn.style.position = "absolute";
+          confirmBtn.style.top = "50%";
+          confirmBtn.style.left = "50%";
+          confirmBtn.style.transform = "translate(-50%, -50%)";
+          confirmBtn.style.zIndex = 2;
+
+          confirmBtn.onclick = function () {
+            cardBody.innerHTML = "";
+            if (overlay) {
+              overlay.remove();
+            }
+            sendDataToServer(facility, bedType, mode, time, caseId);
+            confirmBtn.style.display = "none";
+            const message = `Case ${caseId} assigned to ${facility} in a ${bedType} bed with ${mode} mode transport with ${time} min travel time.`;
+            const messageDisplay = document.createElement("div");
+            messageDisplay.innerHTML = message;
+            messageDisplay.classList.add("message-display");
+            messageDisplay.classList.add(".post-confirmed");
+            
+
+            cardBody.appendChild(messageDisplay);
+          };
+        } else {
+          console.error("Confirm button not found.");
+        }
+
+        // Show details button
+        const detailsBtn = document.createElement("a");
+        detailsBtn.href = "#caseDetails" + caseId;
+        detailsBtn.classList.add("btn", "btn-primary");
+        detailsBtn.setAttribute("data-toggle", "collapse");
+        detailsBtn.setAttribute("aria-expanded", "false");
+        detailsBtn.setAttribute("aria-controls", "caseDetails" + caseId);
+        detailsBtn.textContent = "View Details";
+        cardBody.appendChild(detailsBtn);
+      }
+
+      function sendDataToServer(facility, bedType, mode, time, caseId) {
+        var data = {
+            facility: facility,
+            bedType: bedType,
+            mode: mode,
+            time: time,
+            caseId: caseId
+        };
+        fetch('/process_value', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            location.reload()
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+    </script>
+  </body>
 </html>

@@ -3,16 +3,18 @@ import pandas as pd
 import logging
 import load_balance as lb
 
+
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 def get_crit_facilities(cases):
     bed_counts = pd.DataFrame(lb.data).set_index('Bed Type')
 
     selected_traffic_condition = random.choice(['Low', 'Medium', 'High'])
     logging.info(f"Selected traffic condition for all cases: {selected_traffic_condition}")
-
-    critical_cases = [case for case in cases if case['Severity'] == 'CRITICAL']
+    critical_cases = cases
+    # critical_cases = [case for case in cases if case['Severity'] == 'CRITICAL']
     logging.info(f'Amount of Critical Cases: {len(critical_cases)}')
 
     case_outcomes = []
@@ -23,50 +25,52 @@ def get_crit_facilities(cases):
             "Assigned": False,
             "Facility": None,
             "Reason": None,
-            "Travel Time": None,
-            "Bed Typed Needed": case['Bed Typed Needed']
+            "Travel Time Ground": None,
+            "Travel Time Air": None,
+            "Bed Typed Needed": case['Bed Typed Needed'],
+            "Trauma Level": None  # Add trauma level field
         }
 
         recommended_facilities = case['Common Recommended Facilities']
         facilities_times = {}
+        ground_times = {}
+        air_times = {}
         for facility in recommended_facilities:
             ground_time = transportation_times[facility][selected_traffic_condition]
             air_time = transportation_times[facility].get("Helicopter", None)
+            trauma_level = trauma_level_dict.get(facility, 'N/A')
             facilities_times[facility] = {
                 "Ground": ground_time,
-                "Air": air_time if air_time is not None else "N/A"  # Represent air time distinctly, handle facilities without helicopter access
+                "Air": air_time if air_time is not None else "N/A",
+                "Trauma Level": trauma_level 
             }
+        sorted_facilities = sorted(facilities_times.items(), key=lambda x: x[1]['Ground'])
+        sorted_facilities_times = {facility: times for facility, times in sorted_facilities}
+        for facility in recommended_facilities:
+            ground_time = transportation_times[facility][selected_traffic_condition]
+            ground_times[facility] = {
+                "Ground": ground_time,
+            }
+        sorted_ground_facilities = sorted(ground_times.items(), key=lambda x: x[1]['Ground'])
         
+        for facility in recommended_facilities:
+            air_time = transportation_times[facility].get("Helicopter")
+            air_times[facility] = {
+                "Air": air_time if air_time is not None else "N/A"
+            }
+        sorted_air_facilites = sorted(air_times.items(), key=lambda x: x[1]['Air'])
+
+
         recs.append({
             "Case ID": case['Case ID'],
-            "Facilities": facilities_times,  # Now contains separate entries for ground and air travel times
+            "Facilities": sorted_facilities_times,
+            "Travel Time Ground": sorted_ground_facilities,
+            "Travel Time Air": sorted_air_facilites,
             'Specialties Needed': case['Specialties Needed'],
-            "Bed Types Needed": case['Bed Typed Needed']
+            "Bed Types Needed": case['Bed Typed Needed'],
+            "Severity": case['Severity']
         })
-
-        # Here we continue with the logic of assigning facilities based on ground transportation and bed availability
-        for facility, times in facilities_times.items():
-            needed_bed_types = case['Bed Typed Needed']
-            if all(bed_counts.loc[bed_type, facility] > 0 for bed_type in needed_bed_types):
-                case_result["Assigned"] = True
-                case_result["Facility"] = facility
-                case_result["Travel Time"] = times["Ground"]  # Using ground travel time for assignments
-                
-                bed_counts = lb.update_bed_count_for_case(case_result, bed_counts)
-                logging.info(f"Case ID {case['Case ID']} assigned to {facility} with ground travel time of {times['Ground']} minutes.")
-                break
-
-        if not case_result["Assigned"]:
-            case_result["Reason"] = "No facility has all needed bed types available."
-            logging.warning(f"Case ID {case['Case ID']} could not be assigned to any facility. Reason: {case_result['Reason']}")
-
-        case_outcomes.append(case_result)
-
-    logging.info("Unassigned Cases: " + ", ".join([str(cid["Case ID"]) for cid in case_outcomes if not cid["Assigned"]]))
-    logging.info(f"\nUpdated Bed Counts:\n{bed_counts}")
-    bed_counts = bed_counts.to_dict()
-
-    return case_outcomes, bed_counts, recs
+    return recs
 
 
 transportation_times = {
@@ -88,3 +92,24 @@ transportation_times = {
     "Stafford": {"Low": 58, "Medium": 60, "High": 88, "Helicopter": 26.41},
     "VHC": {"Low": 35, "Medium": 44, "High": 50, "Helicopter": 0},
 }
+trauma_levels = [
+    {'Georgetown': 0},
+    {'GWU': 1},
+    {'Howard': 1},
+    {'NRH': 0},
+    {'WHC': 1},
+    {'Sibley': 0},
+    {'Reston': 2},
+    {'Fauquier': 0},
+    {'FairOaks': 0},
+    {'FFX': 1},
+    {'Loudoun': 0},
+    {'MaryWash': 2},
+    {'Mount Vernon': 0},
+    {'Novant': 0},
+    {'Spotsylvania': 0},
+    {'Stafford': 0},
+    {'VHC': 2}
+]
+
+trauma_level_dict = {list(level.keys())[0]: list(level.values())[0] for level in trauma_levels}
