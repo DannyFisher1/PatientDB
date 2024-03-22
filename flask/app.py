@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 from cases import get_info
 import cases_func as cf
 from convert_patient_data import get_data
-from sort_patients import get_crit_facilities
+from sort_patients import match_patients, set_traffic_speed
 import os
 import pandas as pd
 import load_balance as lb
@@ -59,9 +59,9 @@ def upload_file():
 def process_file(filepath):
     data_df = get_data(filepath)
     results = get_info(data_df)
-    recs = get_crit_facilities(results)
+    traffic_speed = set_traffic_speed()
     session['results'] = results if not isinstance(results, pd.DataFrame) else results.to_dict('records')
-    session['recs'] = recs if not isinstance(recs, pd.DataFrame) else recs.to_dict('records')
+    session['traffic_speed'] = traffic_speed if not isinstance(traffic_speed, pd.DataFrame) else traffic_speed.to_dict('records')
 
 # Route to display results
 @app.route('/initial', methods=['GET'])
@@ -102,9 +102,11 @@ import pandas as pd
 
 @app.route('/results', methods=['GET'])
 def display_results():
-    recs = session.get('recs', [])
+    results = session['results']
+    traffic_speed = session.get('traffic_speed', [])
+    recs = match_patients(results, traffic_speed)
     confirmed = session.get('confirm', [])
-    
+    unmatched_results = []
 
     for rec in recs:
         rec['is_confirmed'] = any(int(rec['Case ID']) == int(conf['case_id']) for conf in confirmed)
@@ -115,23 +117,30 @@ def display_results():
                 rec['time'] = conf['time']
                 break
 
-        # Initialize a list to hold facilities to be removed
         facilities_to_remove = []
 
-        for facility in rec['Facilities']:
-            for bed_type in rec['Bed Types Needed']:
-                if not lb.check_beds(facility, bed_type):
-                    # Mark the facility for removal and exit the loop for this facility
-                    facilities_to_remove.append(facility)
-                    print(f'Not available: {facility} {bed_type}')
-                    break  # No need to check other bed types for this facility
+       
+        for transport_mode in ['Travel Time Ground', 'Travel Time Air']:
+            for facility, _ in rec[transport_mode]:
+                for bed_type in rec['Bed Types Needed']:
+                    if not lb.check_beds(facility, bed_type):
+                        if facility not in facilities_to_remove: 
+                            facilities_to_remove.append(facility)
+                            print(f'Not available in {transport_mode}: {facility} {bed_type}')
+            
 
-    # Remove the marked facilities from rec['Facilities']
-    rec['Facilities'] = [facility for facility in rec['Facilities'] if facility not in facilities_to_remove]
+  
+        rec['Travel Time Ground'] = [(facility, details) for facility, details in rec['Travel Time Ground'] if facility not in facilities_to_remove]
+        rec['Travel Time Air'] = [(facility, details) for facility, details in rec['Travel Time Air'] if facility not in facilities_to_remove]
 
-                
 
-    return render_template('critical.html', recs=recs, confirmed=confirmed)
+        if not rec['Travel Time Ground'] and not rec['Travel Time Air']:
+            unmatched_results.append(rec)
+
+    recs = [rec for rec in recs if rec not in unmatched_results]
+    for rec in recs:
+        print(rec)
+    return render_template('critical.html', recs=recs, confirmed=confirmed, unmatched_results=unmatched_results)
 
 
 @app.route('/bed_counts')

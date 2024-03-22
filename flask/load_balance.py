@@ -22,9 +22,6 @@ data = {
         "VHC": [18, 3, 4, 2, 0, 0, 2, 2]
     }
 
-def change(beds):
-    beds = {facility: {data["Bed Type"][i]: counts[i] for i in range(len(data["Bed Type"]))} for facility, counts in data.items() if facility != "Bed Type"}
-
 def update_beds(placement):
     if 'bd' not in session:
         session['bd'] = data
@@ -54,6 +51,18 @@ def check_beds(facility, bed_type):
            return True
     else:
         return False
+    
+def get_bed_num(facility, bed_type):
+    if 'bd' not in session:
+        session['bd'] = data  
+    beds_data = session['bd']
+
+    if facility in beds_data:
+        bed_index = beds_data["Bed Type"].index(bed_type)
+        if beds_data[facility][bed_index] > 0:
+           return beds_data[facility][bed_index]
+    else:
+        return 0
 
 
 # Check bed percents 
