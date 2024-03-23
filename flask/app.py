@@ -2,10 +2,9 @@
 from flask import Flask, flash, jsonify, redirect, request, render_template, session, url_for
 from flask_session import Session
 from werkzeug.utils import secure_filename
-from cases import get_info
 import cases_func as cf
 from convert_patient_data import get_data
-from sort_patients import match_patients, set_traffic_speed
+from sort_patients import match_patients, set_traffic_speed, update_facility_lists
 import os
 import pandas as pd
 import load_balance as lb
@@ -58,13 +57,13 @@ def upload_file():
 # Function to process uploaded file
 def process_file(filepath):
     data_df = get_data(filepath)
-    results = get_info(data_df)
+    results = cf.get_info(data_df)
     traffic_speed = set_traffic_speed()
     session['results'] = results if not isinstance(results, pd.DataFrame) else results.to_dict('records')
     session['traffic_speed'] = traffic_speed if not isinstance(traffic_speed, pd.DataFrame) else traffic_speed.to_dict('records')
 
 # Route to display results
-@app.route('/initial', methods=['GET'])
+@app.route('/original', methods=['GET'])
 def display_initial_results():
     if 'results' not in session:
         flash('Please upload data first.', 'warning')
@@ -72,7 +71,7 @@ def display_initial_results():
     results = session['results']
     matched_results = [result for result in results if result.get('Common Recommended Facilities')]
     unmatched_results = [result for result in results if not result.get('Common Recommended Facilities')]
-    return render_template('results.html', matched_results=matched_results, unmatched_results=unmatched_results)
+    return render_template('original.html', matched_results=matched_results, unmatched_results=unmatched_results)
 
 
 # Route to process confirmed selections
@@ -96,7 +95,6 @@ def process_value():
     lb.update_beds(confirmed_placement)
     return jsonify({"message": "Confirmation data stored successfully."})
 
-
 from flask import session, render_template
 import pandas as pd
 
@@ -106,40 +104,7 @@ def display_results():
     traffic_speed = session.get('traffic_speed', [])
     recs = match_patients(results, traffic_speed)
     confirmed = session.get('confirm', [])
-    unmatched_results = []
-
-    for rec in recs:
-        rec['is_confirmed'] = any(int(rec['Case ID']) == int(conf['case_id']) for conf in confirmed)
-        for conf in confirmed:
-            if int(rec['Case ID']) == int(conf['case_id']):
-                rec['confirmed_facility'] = conf['facility']
-                rec['mode'] = conf['mode']
-                rec['time'] = conf['time']
-                break
-
-        facilities_to_remove = []
-
-       
-        for transport_mode in ['Travel Time Ground', 'Travel Time Air']:
-            for facility, _ in rec[transport_mode]:
-                for bed_type in rec['Bed Types Needed']:
-                    if not lb.check_beds(facility, bed_type):
-                        if facility not in facilities_to_remove: 
-                            facilities_to_remove.append(facility)
-                            print(f'Not available in {transport_mode}: {facility} {bed_type}')
-            
-
-  
-        rec['Travel Time Ground'] = [(facility, details) for facility, details in rec['Travel Time Ground'] if facility not in facilities_to_remove]
-        rec['Travel Time Air'] = [(facility, details) for facility, details in rec['Travel Time Air'] if facility not in facilities_to_remove]
-
-
-        if not rec['Travel Time Ground'] and not rec['Travel Time Air']:
-            unmatched_results.append(rec)
-
-    recs = [rec for rec in recs if rec not in unmatched_results]
-    for rec in recs:
-        print(rec)
+    recs, unmatched_results = update_facility_lists(recs, confirmed)
     return render_template('critical.html', recs=recs, confirmed=confirmed, unmatched_results=unmatched_results)
 
 

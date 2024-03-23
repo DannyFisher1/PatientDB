@@ -152,7 +152,7 @@ def match_spec(df):
 
     return results
 
-def find_common_facilities(df):
+def get_info(df):
     beds = match_bed(df)
     specs = match_spec(df)
     common_results = []
@@ -185,39 +185,3 @@ def find_common_facilities(df):
         logging.warning("No common recommended facilities found for the given cases.")
     
     return common_results
-
-def facility_amounts(common_results):
-    facility_counts = {}
-
-    for result in common_results:
-        common_facilities = result['Common Recommended Facilities']
-        for facility in common_facilities:
-            if facility in facility_counts:
-                facility_counts[facility] += 1
-            else:
-                facility_counts[facility] = 1
-
-    facility_counts_df = pd.DataFrame(list(facility_counts.items()), columns=['Facility', 'Count'])
-    
-    sorted_df = facility_counts_df.sort_values(by='Count', ascending=False)
-    return sorted_df
-
-
-def is_critical(cases):
-    facility_counts = {}
-
-    for case in cases:
-        # Check if the case's severity is 'CRITICAL'
-        if case.get('Severity') == 'CRITICAL':
-            # Process each facility in the 'Common Recommended Facilities' list
-            for facility in case.get('Common Recommended Facilities', []):
-                if facility in facility_counts:
-                    facility_counts[facility] += 1
-                else:
-                    facility_counts[facility] = 1
-
-    # Convert the counts to a DataFrame for easier handling and sorting
-    facility_counts_df = pd.DataFrame(list(facility_counts.items()), columns=['Facility', 'Count'])
-    sorted_df = facility_counts_df.sort_values(by='Count', ascending=False)
-    return sorted_df
-

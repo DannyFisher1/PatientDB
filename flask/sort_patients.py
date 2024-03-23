@@ -4,6 +4,23 @@ import logging
 import load_balance as lb
 import flask 
 
+"""
+match_patients(cases,speed)
+    - take in cases and speed of traffic
+    - match patients based on severity 
+        - gives ground/air
+        - gives active bed counts
+    - returns recs 
+update_facility_lists(recs,confirmed)
+    - takes in recs and confirmed cases 
+    - if the bed and hcf combo dont exist delete it
+    - return updated recs
+set_traffic_speed():
+    - returns random traffic choice from transportation_times
+
+
+"""
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -13,13 +30,10 @@ def match_patients(cases, speed):
 
     selected_traffic_condition = speed
     logging.info(f"Selected traffic condition for all cases: {selected_traffic_condition}")
-    critical_cases = cases
     # critical_cases = [case for case in cases if case['Severity'] == 'CRITICAL']
-    logging.info(f'Amount of Critical Cases: {len(critical_cases)}')
-
-    case_outcomes = []
+    logging.info(f'Amount of Critical Cases: {len(cases)}')
     recs = []
-    for case in critical_cases:
+    for case in cases:
 
         recommended_facilities = case['Common Recommended Facilities']
         facilities_times = {}
@@ -49,10 +63,14 @@ def match_patients(cases, speed):
             air_times[facility] = {
                 "Air": air_time if air_time is not None else "N/A"
             }
-       
-        sorted_ground_facilities = sorted(ground_times.items(), key=lambda x: x[1]['Ground'])
-        sorted_air_facilites = sorted(air_times.items(), key=lambda x: x[1]['Air'])
 
+
+        if case['Severity'] == 'CRITICAL':
+            sorted_ground_facilities = sorted(ground_times.items(), key=lambda x: x[1]['Ground'])
+            sorted_air_facilites = sorted(air_times.items(), key=lambda x: x[1]['Air'])
+        else:
+            sorted_ground_facilities = sorted(facilities_times.items(), key=lambda x: x[1]['Bed Count'], reverse=True)
+            sorted_air_facilites = sorted(facilities_times.items(), key=lambda x: x[1]['Bed Count'], reverse=True)
 
         recs.append({
             "Case ID": case['Case ID'],
@@ -65,6 +83,38 @@ def match_patients(cases, speed):
         })
     return recs
 
+def update_facility_lists(recs, confirmed):
+    unmatched_results = []
+
+    for rec in recs:
+        rec['is_confirmed'] = any(int(rec['Case ID']) == int(conf['case_id']) for conf in confirmed)
+        for conf in confirmed:
+            if int(rec['Case ID']) == int(conf['case_id']):
+                rec['confirmed_facility'] = conf['facility']
+                rec['mode'] = conf['mode']
+                rec['time'] = conf['time']
+                break
+
+        facilities_to_remove = []
+
+       
+        for transport_mode in ['Travel Time Ground', 'Travel Time Air']:
+            for facility, _ in rec[transport_mode]:
+                for bed_type in rec['Bed Types Needed']:
+                    if not lb.check_beds(facility, bed_type):
+                        if facility not in facilities_to_remove: 
+                            facilities_to_remove.append(facility)
+                            print(f'Not available in {transport_mode}: {facility} {bed_type}')
+            
+
+  
+        rec['Travel Time Ground'] = [(facility, details) for facility, details in rec['Travel Time Ground'] if facility not in facilities_to_remove]
+        rec['Travel Time Air'] = [(facility, details) for facility, details in rec['Travel Time Air'] if facility not in facilities_to_remove]
+        if not rec['Travel Time Ground'] and not rec['Travel Time Air']:
+            unmatched_results.append(rec)
+    recs = [rec for rec in recs if rec not in unmatched_results]
+
+    return recs, unmatched_results
 
 def set_traffic_speed():
         return random.choice(['Low', 'Medium', 'High'])
