@@ -7,7 +7,7 @@ import cases
 data = cpd.get_data('uploads/New_cases_0223.xlsx')
 
 # Get the matched case information
-matched_info = cases.get_info(data)
+matched_info = cf.get_info(data)
 
 # Add bed hours to matched_info
 matched_df = pd.DataFrame(matched_info)

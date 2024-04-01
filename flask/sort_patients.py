@@ -1,8 +1,6 @@
 import random
-import pandas as pd
 import logging
 import load_balance as lb
-import flask 
 
 """
 match_patients(cases,speed)
@@ -32,6 +30,7 @@ def match_patients(cases, speed):
     logging.info(f"Selected traffic condition for all cases: {selected_traffic_condition}")
     # critical_cases = [case for case in cases if case['Severity'] == 'CRITICAL']
     logging.info(f'Amount of Critical Cases: {len(cases)}')
+
     recs = []
     for case in cases:
 
@@ -44,13 +43,36 @@ def match_patients(cases, speed):
             air_time = transportation_times[facility].get("Helicopter", None)
             trauma_level = trauma_level_dict.get(facility, 'N/A')
             bed_count = lb.get_bed_num(facility, case['Bed Typed Needed'][0]) if case['Bed Typed Needed'] else 0
-            # print(f'facility + {facility} + bed count {bed_count}')
+            bed_count = 0 if bed_count is None else bed_count
             facilities_times[facility] = {
                 "Ground": ground_time,
                 "Air": air_time if air_time is not None else "N/A",
                 "Bed Count": bed_count,
-                "Trauma Level": trauma_level 
+                "Trauma Level": trauma_level,
+                "Gender": case['Gender'],  # Add gender
+                "Age": case['Age'],  # Add age
+                "Injury ICD10_1": case['Injury ICD10_1'],  # Add injury ICD10_1
+                "Injury ICD10_2": case['Injury ICD10_2'],  # Add injury ICD10_2
+                "Injury ICD10_3": case['Injury ICD10_3'],  # Add injury ICD10_3
+                "Injury ICD10_4": case['Injury ICD10_4'],  # Add injury ICD10_4
+                "Injury AIS_1": case['Injury AIS_1'],  # Add injury AIS_1
+                "Injury AIS_2": case['Injury AIS_2'],  # Add injury AIS_2
+                "Injury AIS_3": case['Injury AIS_3'],  # Add injury AIS_3
+                "Injury AIS_4": case['Injury AIS_4'],  # Add injury AIS_4
+                "Combat Status": case['Combat Status'],  # Add combat status
+                "Max ISS Score": case['Max ISS Score'],  # Add max ISS score
+                "Mechanism Injury": case['Mechanism Injury'],  # Add mechanism injury
+                "Primary Injury Type": case['Primary Injury Type'],  # Add primary injury type
+                "Secondary Injury Type": case['Secondary Injury Type'],  # Add secondary injury type
+                "Tertiary Injury Type": case['Tertiary Injury Type'],  # Add tertiary injury type
+                "Medical Complications": case['Medical Complications'],  # Add medical complications
+                "Disposition": case['Disposition']  # Add disposition
             }
+        sorted_ground_facilities = sorted(
+            facilities_times.items(),
+            key=lambda x: (x[1]['Bed Count'] if x[1]['Bed Count'] is not None else 0), 
+            reverse=True
+        )
         sorted_facilities = sorted(facilities_times.items(), key=lambda x: x[1]['Ground'])
         sorted_facilities_times = {facility: times for facility, times in sorted_facilities}
         for facility in recommended_facilities:
@@ -63,7 +85,8 @@ def match_patients(cases, speed):
             air_times[facility] = {
                 "Air": air_time if air_time is not None else "N/A"
             }
-
+            
+        
 
         if case['Severity'] == 'CRITICAL':
             sorted_ground_facilities = sorted(ground_times.items(), key=lambda x: x[1]['Ground'])
@@ -79,9 +102,28 @@ def match_patients(cases, speed):
             "Travel Time Air": sorted_air_facilites,
             'Specialties Needed': case['Specialties Needed'],
             "Bed Types Needed": case['Bed Typed Needed'],
-            "Severity": case['Severity']
+            "Severity": case['Severity'],
+            "Gender": case['Gender'],  # Add gender
+            "Age": case['Age'],  # Add age
+            "Injury ICD10_1": case['Injury ICD10_1'],  # Add injury ICD10_1
+            "Injury ICD10_2": case['Injury ICD10_2'],  # Add injury ICD10_2
+            "Injury ICD10_3": case['Injury ICD10_3'],  # Add injury ICD10_3
+            "Injury ICD10_4": case['Injury ICD10_4'],  # Add injury ICD10_4
+            "Injury AIS_1": case['Injury AIS_1'],  # Add injury AIS_1
+            "Injury AIS_2": case['Injury AIS_2'],  # Add injury AIS_2
+            "Injury AIS_3": case['Injury AIS_3'],  # Add injury AIS_3
+            "Injury AIS_4": case['Injury AIS_4'],  # Add injury AIS_4
+            "Combat Status": case['Combat Status'],  # Add combat status
+            "Max ISS Score": case['Max ISS Score'],  # Add max ISS score
+            "Mechanism Injury": case['Mechanism Injury'],  # Add mechanism injury
+            "Primary Injury Type": case['Primary Injury Type'],  # Add primary injury type
+            "Secondary Injury Type": case['Secondary Injury Type'],  # Add secondary injury type
+            "Tertiary Injury Type": case['Tertiary Injury Type'],  # Add tertiary injury type
+            "Medical Complications": case['Medical Complications'],  # Add medical complications
+            "Disposition": case['Disposition']  # Add disposition
         })
     return recs
+
 
 def update_facility_lists(recs, confirmed):
     unmatched_results = []

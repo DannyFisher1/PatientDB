@@ -81,7 +81,13 @@ def get_data(xl):
         'first_bed_TERTIARY', 'second_bed_PRIMARY',
         'second_bed_SECONDARY', 'second_bed_TERTIARY',
         'third_bed_PRIMARY', 'third_bed_SECONDARY',
-        'third_bed_TERTIARY'
+        'third_bed_TERTIARY','first_bed_hours', 
+        'second_bed_hours', 'third_bed_hours',
+        'gender', 'age','injury_icd10_1', 'injury_icd10_2', 'injury_icd10_3', 'injury_icd10_4',
+        'injury_ais_1', 'injury_ais_2', 'injury_ais_3', 'injury_ais_4',
+        'combat_status', 'max_iss_score', 'mechanism_injury',
+        'primary_injury_type', 'secondary_injury_type', 'tertiary_injury_type',
+        'medical_complications', 'disposition'
     ]]
 
     # List of bed types to exclude

@@ -1,0 +1,59 @@
+{% macro generate_case_details(case) %}
+<ul class="list-group list-group-flush">
+  <!-- Bed Types Needed -->
+  {% if case['Bed Types Needed'] %}
+    <li class="list-group-item">Bed Types Needed: {{ case['Bed Types Needed']|join(", ") }}</li>
+  {% endif %}
+  
+  <!-- Specialties Needed -->
+  {% if case['Specialties Needed'] %}
+    <li class="list-group-item">Specialties Needed: {{ case['Specialties Needed']|join(", ") }}</li>
+  {% endif %}
+  
+  <!-- Gender -->
+  {% if case['Gender'] %}
+    <li class="list-group-item">Gender: {{ case['Gender'] }}</li>
+  {% endif %}
+  
+  <!-- Age -->
+  {% if case['Age'] %}
+    <li class="list-group-item">Age: {{ case['Age'] }}</li>
+  {% endif %}
+  
+  <!-- Injury ICD10 Codes -->
+  {% for i in range(1, 5) %}
+    {% if case['Injury ICD10_' ~ i] %}
+      <li class="list-group-item">Injury ICD10_{{ i }}: {{ case['Injury ICD10_' ~ i] }}</li>
+    {% endif %}
+  {% endfor %}
+  
+  <!-- Injury AIS Codes -->
+  {% for i in range(1, 5) %}
+    {% if case['Injury AIS_' ~ i] %}
+      <li class="list-group-item">Injury AIS_{{ i }}: {{ case['Injury AIS_' ~ i] }}</li>
+    {% endif %}
+  {% endfor %}
+  
+  <!-- Additional details -->
+  {% for detail in ['Combat Status', 'Max ISS Score', 'Mechanism Injury', 'Primary Injury Type', 'Secondary Injury Type', 'Tertiary Injury Type', 'Medical Complications', 'Disposition'] %}
+    {% if case[detail] %}
+      <li class="list-group-item">{{ detail }}: {{ case[detail] }}</li>
+    {% endif %}
+  {% endfor %}
+</ul>
+{% endmacro %}
+
+{% macro generate_travel_info(case, travel_mode) %}
+<div>
+  <h6 class="card-title">{{ travel_mode }} Travel:</h6>
+  {% for facility_info in case['Travel Time ' ~ travel_mode] %}
+    {% if facility_info[1][travel_mode] > 0 %}
+      <p class="card-text d-flex align-items-center">
+        <span class="badge bg-{{ 'primary' if travel_mode == 'Ground' else 'info' }} me-1" onclick="sendData('{{ facility_info[0] }}', '{{ case['Bed Types Needed'][0] }}', '{{ travel_mode }}', {{ facility_info[1][travel_mode] }}, this.closest('.card'), '{{ case['Case ID'] }}')">
+          {{ facility_info[0] }}: {{ facility_info[1][travel_mode] }}min ({{ pluralize(case['Facilities'][facility_info[0]]['Bed Count'], 'bed', 'beds') }})
+        </span>
+      </p>
+    {% endif %}
+  {% endfor %}
+</div>
+{% endmacro %}

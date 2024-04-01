@@ -1,13 +1,11 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Critical Cases Assignments</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
       .overlay {
@@ -29,7 +27,6 @@
         color: #333;
         background-color: #f0f0f0;
         border-radius: 5px;
-        
       }
     </style>
   </head>
@@ -41,8 +38,8 @@
         <button
           class="navbar-toggler"
           type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
           aria-controls="navbarNav"
           aria-expanded="false"
           aria-label="Toggle navigation"
@@ -90,7 +87,7 @@
                   {% for facility_info in case['Travel Time Ground'] %}
                   <p class="card-text d-flex align-items-center">
                     <span
-                      class="badge badge-primary mr-1"
+                      class="badge bg-primary me-1"
                       onclick="sendData('{{ facility_info[0] }}', '{{ case['Bed Types Needed'][0] }}', 'Ground', {{ facility_info[1]['Ground'] }}, this.closest('.card'), '{{ case['Case ID'] }}')"
                       >
                     {% if case['Facilities'][facility_info[0]]['Bed Count'] > 1  %}
@@ -107,14 +104,14 @@
                   <h6 class="card-title">
                     &#8203;
                     <!-- Non-breaking space to align Air times -->
-                    Air Travel
+                    Air Travel:
                   </h6>  
                   {% for facility_info in case['Travel Time Air'] %} {% if
                   facility_info[1]['Air'] > 0 %}
                   <p class="card-text d-flex align-items-center">
                     <!-- Fixed: Added '{{ case['Case ID'] }}' to the 'sendData' function call -->
                     <span
-                      class="badge badge-info"
+                      class="badge bg-info me-1"
                       onclick="sendData('{{ facility_info[0] }}', '{{ case['Bed Types Needed'][0] }}', 'Air', {{ facility_info[1]['Air'] }}, this.closest('.card'), '{{ case['Case ID'] }}')"
                       >
                     {% if case['Facilities'][facility_info[0]]['Bed Count'] > 1  %}
@@ -128,15 +125,15 @@
                 </div>
               </div>
               <br />
-              <a
-                href="#caseDetails{{ case['Case ID'] }}"
+                <a
+                href="javascript:void(0);"
                 class="btn btn-primary"
-                data-toggle="collapse"
+                onclick="toggleCollapse('caseDetails{{ case['Case ID'] }}')"
                 aria-expanded="false"
                 aria-controls="caseDetails{{ case['Case ID'] }}"
                 >View Details</a
-              >
-              <!-- Added Confirm Button Here -->
+            >
+              <button class="btn btn-danger skip-btn" data-case-id="{{ case['Case ID'] }}" severity = "{{ case['Severity'] }}">Skip for Now</button>
               <button class="btn btn-success confirm-btn" style="display: none">
                 Confirm
               </button>
@@ -152,6 +149,96 @@
                     Specialties Needed: {{ case['Specialties Needed']|join(", ")
                     }}
                   </li>
+                  {% if case['Gender'] %}
+                  <li class="list-group-item">
+                    Gender: {{ case['Gender'] }}
+                  </li>
+                  {% endif %}
+                  {% if case['Age'] %}
+                  <li class="list-group-item">
+                    Age: {{ case['Age'] }}
+                  </li>
+                  {% endif %}
+                  {% if case['Injury ICD10_1'] %}
+                  <li class="list-group-item">
+                    Injury ICD10_1: {{ case['Injury ICD10_1'] }}
+                  </li>
+                  {% endif %}
+                  {% if case['Injury ICD10_2'] %}
+                  <li class="list-group-item">
+                    Injury ICD10_2: {{ case['Injury ICD10_2'] }}
+                  </li>
+                  {% endif %}
+                  {% if case['Injury ICD10_3'] %}
+                  <li class="list-group-item">
+                    Injury ICD10_3: {{ case['Injury ICD10_3'] }}
+                  </li>
+                  {% endif %}
+                  {% if case['Injury ICD10_4'] %}
+                  <li class="list-group-item">
+                    Injury ICD10_4: {{ case['Injury ICD10_4'] }}
+                  </li>
+                  {% endif %}
+                  {% if case['Injury AIS_1'] %}
+                  <li class="list-group-item">
+                    Injury AIS_1: {{ case['Injury AIS_1'] }}
+                  </li>
+                  {% endif %}
+                  {% if case['Injury AIS_2'] %}
+                  <li class="list-group-item">
+                    Injury AIS_2: {{ case['Injury AIS_2'] }}
+                  </li>
+                  {% endif %}
+                  {% if case['Injury AIS_3'] %}
+                  <li class="list-group-item">
+                    Injury AIS_3: {{ case['Injury AIS_3'] }}
+                  </li>
+                  {% endif %}
+                  {% if case['Injury AIS_4'] %}
+                  <li class="list-group-item">
+                    Injury AIS_4: {{ case['Injury AIS_4'] }}
+                  </li>
+                  {% endif %}
+                  {% if case['Combat Status'] %}
+                  <li class="list-group-item">
+                    Combat Status: {{ case['Combat Status'] }}
+                  </li>
+                  {% endif %}
+                  {% if case['Max ISS Score'] %}
+                  <li class="list-group-item">
+                    Max ISS Score: {{ case['Max ISS Score'] }}
+                  </li>
+                  {% endif %}
+                  {% if case['Mechanism Injury'] %}
+                  <li class="list-group-item">
+                    Mechanism Injury: {{ case['Mechanism Injury'] }}
+                  </li>
+                  {% endif %}
+                  {% if case['Primary Injury Type'] %}
+                  <li class="list-group-item">
+                    Primary Injury Type: {{ case['Primary Injury Type'] }}
+                  </li>
+                  {% endif %}
+                  {% if case['Secondary Injury Type'] %}
+                  <li class="list-group-item">
+                    Secondary Injury Type: {{ case['Secondary Injury Type'] }}
+                  </li>
+                  {% endif %}
+                  {% if case['Tertiary Injury Type'] %}
+                  <li class="list-group-item">
+                    Tertiary Injury Type: {{ case['Tertiary Injury Type'] }}
+                  </li>
+                  {% endif %}
+                  {% if case['Medical Complications'] %}
+                  <li class="list-group-item">
+                    Medical Complications: {{ case['Medical Complications'] }}
+                  </li>
+                  {% endif %}
+                  {% if case['Disposition'] %}
+                  <li class="list-group-item">
+                    Disposition: {{ case['Disposition'] }}
+                  </li>
+                  {% endif %}
                 </ul>
               </div>
             </div>
@@ -159,6 +246,7 @@
         </div>
         {% endif %} {% endfor %}
       </div>
+      
       <div class="container mt-5">
         <h3 class="mb-3">Cases Without Recommendations</h3>
         <ul class="list-group">
@@ -169,20 +257,52 @@
                 <p class="mb-1">No available facilities with required bed types:</p>
                 <ul class="list-inline">
                   {% for bed_type in case['Bed Types Needed'] %}
-                    <li class="list-inline-item"><span class="badge badge-warning">{{ bed_type }}</span></li>
+                    <li class="list-inline-item"><span class="badge bg-warning">{{ bed_type }}</span></li>
                   {% endfor %}
                 </ul>
               </div>
-              <span class="badge badge-pill badge-secondary">No match found</span>
+              <span class="badge bg-secondary rounded-pill">No match found</span>
             </li>
           {% endfor %}
         </ul>
       </div>
-    <!-- Bootstrap JS and dependencies  -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+      <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
 <script>
+  function toggleCollapse(collapseId) {
+    const collapseElement = document.getElementById(collapseId);
+    if (collapseElement.classList.contains('show')) {
+        collapseElement.classList.remove('show');
+    } else {
+        collapseElement.classList.add('show');
+    }
+}
+  document.addEventListener('DOMContentLoaded', function () {
+    const skipButtons = document.querySelectorAll('.skip-btn');
+
+    skipButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const caseId = this.getAttribute('data-case-id');
+            console.log(caseId)
+            const skipped_case_severity = this.getAttribute('severity');
+            console.log(skipped_case_severity)
+
+            fetch(`/skip_case?skip_case_id=${caseId}&severity=${skipped_case_severity}`)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success) {
+                      location.reload()   
+                    } else {
+                        alert('Failed to skip the case: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error skipping the case.');
+                });
+        });
+    });
+});
   function sendData(facility, bedType, mode, time, card, caseId) {
     console.log(
       "Facility: " +
@@ -255,11 +375,13 @@
     const detailsBtn = document.createElement("a");
     detailsBtn.href = "#caseDetails" + caseId;
     detailsBtn.classList.add("btn", "btn-primary");
-    detailsBtn.setAttribute("data-toggle", "collapse");
+    detailsBtn.setAttribute("data-bs-toggle", "collapse"); // Changed from "data-toggle" to "data-bs-toggle"
     detailsBtn.setAttribute("aria-expanded", "false");
     detailsBtn.setAttribute("aria-controls", "caseDetails" + caseId);
     detailsBtn.textContent = "View Details";
     cardBody.appendChild(detailsBtn);
+
+
   }
 
   function sendDataToServer(facility, bedType, mode, time, caseId) {
@@ -285,6 +407,8 @@
         console.error('Error:', error);
     });
 }
+
 </script>
-  </body>
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+</body>
 </html>
