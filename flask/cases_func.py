@@ -208,7 +208,8 @@ bed_type_replacements = {
         "icu/critical care": "ICU/Critical Care",
         "med/surg": "Med/Surg",
         "rehabilitation hospital": "Acute Rehabilitation Unit (ARU)",
-        "long-term care facility": "Post_Acute_Care"
+        "long-term care facility": "Post_Acute_Care",
+        "Psychiatry": "Psych"
     }
 
 severity_replacements = {

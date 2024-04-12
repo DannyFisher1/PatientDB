@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Critical Cases Assignments</title>
   <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+  {% import "macros.html" as macros %}
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intro.js/minified/introjs.min.css">
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: Helvetica, sans-serif;
     }
     .full-width {
       width: 100%;
@@ -31,13 +33,51 @@
     .card-header, .card-title {
       font-size: 18px;
     }
+
     .card-body {
       padding: 20px;
     }
     .details-toggle {
       text-decoration: none;
       color: #007bff;
-      cursor: pointer;
+    }
+    .dropdown-menu {
+      position: absolute;
+      z-index: 1000;
+      top: 100%; /* Ensure it drops down below the button */
+      left: 0;
+    }
+    .dropdown-menu {
+      position: absolute;
+      z-index: 1000;
+      top: 0;
+      left: 0; /* Adjust this as needed, possibly using percentage for responsive design */
+      transform: translateX(-100%);
+      transition: top 0.5s ease, opacity 0.5s ease;
+      opacity: 0;
+      visibility: hidden;
+    }
+  
+    .dropdown-menu.show {
+      top: 100%;
+      opacity: 1;
+      visibility: visible;
+    }
+    .data-intro{
+      font-size: 50px; 
+    }
+  
+    /* This ensures the dropdown toggles the 'show' class */
+    .dropdown-toggle[aria-expanded="true"] + .dropdown-menu {
+      top: 100%;
+      opacity: 1;
+      visibility: visible;
+    }
+  
+    .dropdown-toggle[aria-expanded="false"] + .dropdown-menu {
+      top: 0;
+      opacity: 0;
+      visibility: hidden;
     }
   </style>
 </head>
@@ -77,188 +117,21 @@
   </nav>
 
   <!-- Main Content -->
-  <div class="container mt-5">
+  <div class="container-fluid mt-5">
     <h3 class="mb-3">"Adequate" HCF for All Patients</h3>
     <div class="row">
       {% for case in recs %} {% if case["Facilities"]|length > 0 %}
-      <div class="col-md-6 mb-4">
-        <div class="card">
-          <h5 class="card-header">
-            Case ID: {{ case['Case ID'] }} - {{ case['Severity'] }}
-          </h5>
-          <div class="card-body">
-            {% if case.is_confirmed == True %}
-            <div class="post-confirmed">Case {{ case['Case ID'] }} assigned to {{ case['confirmed_facility'] }} in a {{ case['Bed Types Needed'][0] }} bed with {{ case['mode'] }} transport with a {{ case['time'] }}min  travel time.</div>
-            {% else %}
-            <div
-              class="d-flex flex-column flex-md-row justify-content-between"
-            >
-              <div>
-                <h6 class="card-title">Ground Travel:</h6>
-                {% for facility_info in case['Travel Time Ground'] %}
-                <p class="card-text d-flex align-items-center">
-                  <span
-                    class="badge bg-primary me-1"
-                    onclick="sendData('{{ facility_info[0] }}', '{{ case['Bed Types Needed'][0] }}', 'Ground', {{ facility_info[1]['Ground'] }}, this.closest('.card'), '{{ case['Case ID'] }}')"
-                    >
-                  {% if case['Facilities'][facility_info[0]]['Bed Count'] > 0  %}
-                    {{ facility_info[0] }}: {{ facility_info[1]['Ground'] }}min ({{ case['Facilities'][facility_info[0]]['Bed Count'] }} beds)
-                  {% else %}
-                    {{ facility_info[0] }}: {{ facility_info[1]['Ground'] }}min ({{ case['Facilities'][facility_info[0]]['Bed Count'] }} bed)
-                  {%endif%}
-                  </span>
-                  
-                </p>
-                {% endfor %}
-              </div>
-              <div>
-                <h6 class="card-title">
-                  &#8203;
-                  <!-- Non-breaking space to align Air times -->
-                  Air Travel:
-                </h6>  
-                {% for facility_info in case['Travel Time Air'] %} {% if
-                facility_info[1]['Air'] > 0 %}
-                <p class="card-text d-flex align-items-center">
-                  <!-- Fixed: Added '{{ case['Case ID'] }}' to the 'sendData' function call -->
-                  <span
-                    class="badge bg-info me-1"
-                    onclick="sendData('{{ facility_info[0] }}', '{{ case['Bed Types Needed'][0] }}', 'Air', {{ facility_info[1]['Air'] }}, this.closest('.card'), '{{ case['Case ID'] }}')"
-                    >
-                  {% if case['Facilities'][facility_info[0]]['Bed Count'] > 0  %}
-                    {{ facility_info[0] }}: {{ facility_info[1]['Air'] }}min ({{ case['Facilities'][facility_info[0]]['Bed Count'] }} beds)
-                  {% else %}
-                    {{ facility_info[0] }}: {{ facility_info[1]['Air'] }}min ({{ case['Facilities'][facility_info[0]]['Bed Count'] }} bed)
-                  {%endif%}
-                  </span>
-                </p>
-                {% endif %} {% endfor %}
-              </div>
-            </div>
-            <br />
-              <a
-              href="javascript:void(0);"
-              class="btn btn-primary"
-              onclick="toggleCollapse('caseDetails{{ case['Case ID'] }}')"
-              aria-expanded="false"
-              aria-controls="caseDetails{{ case['Case ID'] }}"
-              >View Details</a
-          >
-            <button class="btn btn-secondary skip-btn" data-case-id="{{ case['Case ID'] }}" severity = "{{ case['Severity'] }}">Skip for Now</button>
-            <button class="btn btn-success confirm-btn" style="display: none">
-              Confirm
-            </button>
-            {% endif %}
-          </div>
-          <div class="collapse" id="caseDetails{{ case['Case ID'] }}">
-            <div class="card-body">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                  Bed Types Needed: {{ case['Bed Types Needed']|join(", ") }}
-                </li>
-                <li class="list-group-item">
-                  Specialties Needed: {{ case['Specialties Needed']|join(", ")
-                  }}
-                </li>
-                {% if case['Gender'] %}
-                <li class="list-group-item">
-                  Gender: {{ case['Gender'] }}
-                </li>
-                {% endif %}
-                {% if case['Age'] %}
-                <li class="list-group-item">
-                  Age: {{ case['Age'] }}
-                </li>
-                {% endif %}
-                {% if case['Injury ICD10_1'] %}
-                <li class="list-group-item">
-                  Injury ICD10_1: {{ case['Injury ICD10_1'] }}
-                </li>
-                {% endif %}
-                {% if case['Injury ICD10_2'] %}
-                <li class="list-group-item">
-                  Injury ICD10_2: {{ case['Injury ICD10_2'] }}
-                </li>
-                {% endif %}
-                {% if case['Injury ICD10_3'] %}
-                <li class="list-group-item">
-                  Injury ICD10_3: {{ case['Injury ICD10_3'] }}
-                </li>
-                {% endif %}
-                {% if case['Injury ICD10_4'] %}
-                <li class="list-group-item">
-                  Injury ICD10_4: {{ case['Injury ICD10_4'] }}
-                </li>
-                {% endif %}
-                {% if case['Injury AIS_1'] %}
-                <li class="list-group-item">
-                  Injury AIS_1: {{ case['Injury AIS_1'] }}
-                </li>
-                {% endif %}
-                {% if case['Injury AIS_2'] %}
-                <li class="list-group-item">
-                  Injury AIS_2: {{ case['Injury AIS_2'] }}
-                </li>
-                {% endif %}
-                {% if case['Injury AIS_3'] %}
-                <li class="list-group-item">
-                  Injury AIS_3: {{ case['Injury AIS_3'] }}
-                </li>
-                {% endif %}
-                {% if case['Injury AIS_4'] %}
-                <li class="list-group-item">
-                  Injury AIS_4: {{ case['Injury AIS_4'] }}
-                </li>
-                {% endif %}
-                {% if case['Combat Status'] %}
-                <li class="list-group-item">
-                  Combat Status: {{ case['Combat Status'] }}
-                </li>
-                {% endif %}
-                {% if case['Max ISS Score'] %}
-                <li class="list-group-item">
-                  Max ISS Score: {{ case['Max ISS Score'] }}
-                </li>
-                {% endif %}
-                {% if case['Mechanism Injury'] %}
-                <li class="list-group-item">
-                  Mechanism Injury: {{ case['Mechanism Injury'] }}
-                </li>
-                {% endif %}
-                {% if case['Primary Injury Type'] %}
-                <li class="list-group-item">
-                  Primary Injury Type: {{ case['Primary Injury Type'] }}
-                </li>
-                {% endif %}
-                {% if case['Secondary Injury Type'] %}
-                <li class="list-group-item">
-                  Secondary Injury Type: {{ case['Secondary Injury Type'] }}
-                </li>
-                {% endif %}
-                {% if case['Tertiary Injury Type'] %}
-                <li class="list-group-item">
-                  Tertiary Injury Type: {{ case['Tertiary Injury Type'] }}
-                </li>
-                {% endif %}
-                {% if case['Medical Complications'] %}
-                <li class="list-group-item">
-                  Medical Complications: {{ case['Medical Complications'] }}
-                </li>
-                {% endif %}
-                {% if case['Disposition'] %}
-                <li class="list-group-item">
-                  Disposition: {{ case['Disposition'] }}
-                </li>
-                {% endif %}
-              </ul>
-            </div>
-          </div>
+      <div class="col-md-4 mb-4">
+         <div class="card" {% if loop.index == 1 %} data-step="1" data-intro="Each Sample Case is Represented Here"{% endif %}>
+          {{macros.get_top(case, loop.index == 1 )}}
+          {{macros.get_body(case, loop.index == 1)}}
         </div>
+        
       </div>
       {% endif %} {% endfor %}
     </div>
     
-    <div class="container mt-5">
+    <div class="row" style="padding-left: 10px; padding-right: 10px;">
       <h3 class="mb-3">Cases Without Recommendations</h3>
       <ul class="list-group">
         {% for case in unmatched_results %}
@@ -277,8 +150,10 @@
         {% endfor %}
       </ul>
     </div>
-  </div>
+  </div>  
+
 </body>
+
 <script>
 function toggleCollapse(collapseId) {
   const collapseElement = document.getElementById(collapseId);
@@ -351,6 +226,8 @@ function sendData(facility, bedType, mode, time, card, caseId) {
 
   const confirmBtn = card.querySelector(".confirm-btn");
   if (confirmBtn) {
+    confirmBtn.setAttribute('data-step', '6');
+    confirmBtn.setAttribute('data-intro', 'Click here to confirm a case');
     confirmBtn.innerHTML =
       "Confirm " + mode + " travel in " + time + " min";
     confirmBtn.style.display = "block";
@@ -359,6 +236,7 @@ function sendData(facility, bedType, mode, time, card, caseId) {
     confirmBtn.style.left = "50%";
     confirmBtn.style.transform = "translate(-50%, -50%)";
     confirmBtn.style.zIndex = 2;
+  
 
     confirmBtn.onclick = function () {
       cardBody.innerHTML = "";
@@ -381,16 +259,6 @@ function sendData(facility, bedType, mode, time, card, caseId) {
   } else {
     console.error("Confirm button not found.");
   }
-
-  // Show details button
-  const detailsBtn = document.createElement("a");
-  detailsBtn.href = "#caseDetails" + caseId;
-  detailsBtn.classList.add("btn", "btn-primary");
-  detailsBtn.setAttribute("data-bs-toggle", "collapse"); // Changed from "data-toggle" to "data-bs-toggle"
-  detailsBtn.setAttribute("aria-expanded", "false");
-  detailsBtn.setAttribute("aria-controls", "caseDetails" + caseId);
-  detailsBtn.textContent = "View Details";
-  cardBody.appendChild(detailsBtn);
 }
 function sendDataToServer(facility, bedType, mode, time, caseId) {
   var data = {
@@ -415,6 +283,51 @@ function sendDataToServer(facility, bedType, mode, time, caseId) {
       console.error('Error:', error);
   });
 }
+///*
+function replaceFacilityNamesWithMapping() {
+  const facilities = [
+    "Georgetown", "GWU", "Howard", "NRH", "WHC",
+    "Sibley", "Reston", "Fauquier", "FairOaks", "FFX",
+    "Loudoun", "MaryWash", "Mount Vernon", "Novant",
+    "Spotsylvania", "Stafford", "VHC"
+  ];
+
+  // Generate the mapping
+  let facilityMapping = {};
+  facilities.forEach((facility, index) => {
+    facilityMapping[facility] = `HCF${index + 1}`;
+  });
+
+  // Function to safely escape regular expression characters
+  function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  // Replace each facility name in the page
+  let pageHTML = document.body.innerHTML;
+  Object.keys(facilityMapping).forEach(facility => {
+    const regex = new RegExp(escapeRegExp(facility), 'g');
+    pageHTML = pageHTML.replace(regex, facilityMapping[facility]);
+  });
+  document.body.innerHTML = pageHTML;
+}
+
+// Call the function to replace facility names on the page
+replaceFacilityNamesWithMapping(); 
+//*/
+function startIntro() {
+  var display = ({{display_instructions|tojson}})
+  console.log('var is ' + display)
+  if (display == true){
+    introJs().start();
+  }
+}
+document.addEventListener('DOMContentLoaded', function () {
+  // Optionally start the tour automatically
+  startIntro();
+});
+
 </script>
 <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/intro.js') }}"></script>
 </html>

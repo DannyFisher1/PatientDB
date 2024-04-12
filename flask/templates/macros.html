@@ -1,59 +1,141 @@
-{% macro generate_case_details(case) %}
-<ul class="list-group list-group-flush">
-  <!-- Bed Types Needed -->
-  {% if case['Bed Types Needed'] %}
-    <li class="list-group-item">Bed Types Needed: {{ case['Bed Types Needed']|join(", ") }}</li>
-  {% endif %}
-  
-  <!-- Specialties Needed -->
-  {% if case['Specialties Needed'] %}
-    <li class="list-group-item">Specialties Needed: {{ case['Specialties Needed']|join(", ") }}</li>
-  {% endif %}
-  
-  <!-- Gender -->
-  {% if case['Gender'] %}
-    <li class="list-group-item">Gender: {{ case['Gender'] }}</li>
-  {% endif %}
-  
-  <!-- Age -->
-  {% if case['Age'] %}
-    <li class="list-group-item">Age: {{ case['Age'] }}</li>
-  {% endif %}
-  
-  <!-- Injury ICD10 Codes -->
-  {% for i in range(1, 5) %}
-    {% if case['Injury ICD10_' ~ i] %}
-      <li class="list-group-item">Injury ICD10_{{ i }}: {{ case['Injury ICD10_' ~ i] }}</li>
+{% macro get_top(case, is_first) %}
+<h5 class="card-header d-flex justify-content-between align-items-center">
+  <span>Case ID: {{ case['Case ID'] }} - {{ case['Severity'] }}</span>
+  <div class="dropdown">
+    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="detailsDropdown{{ case['Case ID'] }}" data-bs-toggle="dropdown" aria-expanded="false"
+    {% if is_first %}data-step="2" data-intro="Click Here to View the Patient Details"{% endif %}>
+      View Details
+    </button>
+    <div class="dropdown-menu" aria-labelledby="detailsDropdown{{ case['Case ID'] }}" style="position: absolute; z-index: 1000;">
+      <ul class="list-unstyled mb-0">
+        <li class="dropdown-item">
+          Bed Types Needed: {{ case['Bed Types Needed']|join(", ") }}
+        </li>
+        <li class="dropdown-item">
+          Specialties Needed: {{ case['Specialties Needed']|join(", ") }}
+        </li>
+        {% if case['Gender'] %}
+        <li class="dropdown-item">Gender: {{ case['Gender'] }}</li>
+        {% endif %} {% if case['Age'] %}
+        <li class="dropdown-item">Age: {{ case['Age'] }}</li>
+        {% endif %} {% if case['Injury ICD10_1'] %}
+        <li class="dropdown-item">Injury ICD10_1: {{ case['Injury ICD10_1'] }}</li>
+        {% endif %} {% if case['Injury ICD10_2'] %}
+        <li class="dropdown-item">Injury ICD10_2: {{ case['Injury ICD10_2'] }}</li>
+        {% endif %} {% if case['Injury ICD10_3'] %}
+        <li class="dropdown-item">Injury ICD10_3: {{ case['Injury ICD10_3'] }}</li>
+        {% endif %} {% if case['Injury ICD10_4'] %}
+        <li class="dropdown-item">Injury ICD10_4: {{ case['Injury ICD10_4'] }}</li>
+        {% endif %} {% if case['Injury AIS_1'] %}
+        <li class="dropdown-item">Injury AIS_1: {{ case['Injury AIS_1'] }}</li>
+        {% endif %} {% if case['Injury AIS_2'] %}
+        <li class="dropdown-item">Injury AIS_2: {{ case['Injury AIS_2'] }}</li>
+        {% endif %} {% if case['Injury AIS_3'] %}
+        <li class="dropdown-item">Injury AIS_3: {{ case['Injury AIS_3'] }}</li>
+        {% endif %} {% if case['Injury AIS_4'] %}
+        <li class="dropdown-item">Injury AIS_4: {{ case['Injury AIS_4'] }}</li>
+        {% endif %} {% if case['Combat Status'] %}
+        <li class="dropdown-item">Combat Status: {{ case['Combat Status'] }}</li>
+        {% endif %} {% if case['Max ISS Score'] %}
+        <li class="dropdown-item">Max ISS Score: {{ case['Max ISS Score'] }}</li>
+        {% endif %} {% if case['Mechanism Injury'] %}
+        <li class="dropdown-item">
+          Mechanism Injury: {{ case['Mechanism Injury'] }}
+        </li>
+        {% endif %} {% if case['Primary Injury Type'] %}
+        <li class="dropdown-item">
+          Primary Injury Type: {{ case['Primary Injury Type'] }}
+        </li>
+        {% endif %} {% if case['Secondary Injury Type'] %}
+        <li class="dropdown-item">
+          Secondary Injury Type: {{ case['Secondary Injury Type'] }}
+        </li>
+        {% endif %} {% if case['Tertiary Injury Type'] %}
+        <li class="dropdown-item">
+          Tertiary Injury Type: {{ case['Tertiary Injury Type'] }}
+        </li>
+        {% endif %} {% if case['Medical Complications'] %}
+        <li class="dropdown-item">
+          Medical Complications: {{ case['Medical Complications'] }}
+        </li>
+        {% endif %} {% if case['Disposition'] %}
+        <li class="dropdown-item">Disposition: {{ case['Disposition'] }}</li>
+        {% endif %}
+      </ul>
+    </div>
+    {% if case.is_confirmed == false %}
+      <button
+        class="btn btn-secondary btn-sm skip-btn"
+        data-case-id="{{ case['Case ID'] }}"
+        severity="{{ case['Severity'] }}"
+        {% if is_first %}data-step="5" data-intro="If you would not like to assign the patient now, you can move it to the end of its respective severity "{% endif %}
+      >
+        Skip for Now
+      </button>
     {% endif %}
-  {% endfor %}
-  
-  <!-- Injury AIS Codes -->
-  {% for i in range(1, 5) %}
-    {% if case['Injury AIS_' ~ i] %}
-      <li class="list-group-item">Injury AIS_{{ i }}: {{ case['Injury AIS_' ~ i] }}</li>
-    {% endif %}
-  {% endfor %}
-  
-  <!-- Additional details -->
-  {% for detail in ['Combat Status', 'Max ISS Score', 'Mechanism Injury', 'Primary Injury Type', 'Secondary Injury Type', 'Tertiary Injury Type', 'Medical Complications', 'Disposition'] %}
-    {% if case[detail] %}
-      <li class="list-group-item">{{ detail }}: {{ case[detail] }}</li>
-    {% endif %}
-  {% endfor %}
-</ul>
-{% endmacro %}
+  </div>
+</h5>
+{% endmacro%}
+{% macro get_body(case, is_first)%}
+<style>
+</style>
+<div class="card-body">
+  {% if case.is_confirmed == True %}
+  <div class="post-confirmed">
+    Case {{ case['Case ID'] }} assigned to {{ case['confirmed_facility'] }} in
+    a {{ case['Bed Types Needed'][0] }} bed with {{ case['mode'] }} transport
+    with a {{ case['time'] }}min travel time.
+  </div>
+  {% else %}
+  <div > 
+    <div class="d-flex flex-column flex-md-row justify-content-between">
+      <div {% if is_first %}data-step="3" data-intro="Here are the Adaquate Ground Facilites"{% endif %}>
+        <h6 class="card-title">Ground Travel:</h6>
+        {% for facility_info in case['Travel Time Ground'] %}
+        <p class="card-text d-flex align-items-center">
+          <span
+            class="badge bg-primary me-1"
+            onclick="sendData('{{ facility_info[0] }}', '{{ case['Bed Types Needed'][0] }}', 'Ground', {{ facility_info[1]['Ground'] }}, this.closest('.card'), '{{ case['Case ID'] }}')"
+          >
+            {% if case['Facilities'][facility_info[0]]['Bed Count'] > 0 %} {{
+            facility_info[0] }}: {{ facility_info[1]['Ground'] }}min ({{
+            case['Facilities'][facility_info[0]]['Bed Count'] }} beds) {% else
+            %} {{ facility_info[0] }}: {{ facility_info[1]['Ground'] }}min ({{
+            case['Facilities'][facility_info[0]]['Bed Count'] }} bed) {%endif%}
+          </span>
+        </p>
+        {% endfor %}
+      </div>
+      <div {% if is_first %}data-step="4" data-intro="Here are the Adaquate Air Facilites"{% endif %}>
+        <h6 class="card-title">
+         
+          <!-- Non-breaking space to align Air times -->
+          Air Travel:
+        </h6>
+        {% for facility_info in case['Travel Time Air'] %} {% if
+        facility_info[1]['Air'] > 0 %}
+        <p class="card-text d-flex align-items-center">
+          <span
+            class="badge bg-info me-1" 
+            onclick="sendData('{{ facility_info[0] }}', '{{ case['Bed Types Needed'][0] }}', 'Air', {{ facility_info[1]['Air'] }}, this.closest('.card'), '{{ case['Case ID'] }}')"
+            >
+            {% if case['Facilities'][facility_info[0]]['Bed Count'] > 0 %} {{
+            facility_info[0] }}: {{ facility_info[1]['Air'] }}min ({{
+            case['Facilities'][facility_info[0]]['Bed Count'] }} beds) {% else
+            %} {{ facility_info[0] }}: {{ facility_info[1]['Air'] }}min ({{
+            case['Facilities'][facility_info[0]]['Bed Count'] }} bed) {%endif%}
+          </span>
+        </p>
+        {% endif %} {% endfor %}
+      </div>
+    </div>
+    <br />
 
-{% macro generate_travel_info(case, travel_mode) %}
-<div>
-  <h6 class="card-title">{{ travel_mode }} Travel:</h6>
-  {% for facility_info in case['Travel Time ' ~ travel_mode] %}
-    {% if facility_info[1][travel_mode] > 0 %}
-      <p class="card-text d-flex align-items-center">
-        <span class="badge bg-{{ 'primary' if travel_mode == 'Ground' else 'info' }} me-1" onclick="sendData('{{ facility_info[0] }}', '{{ case['Bed Types Needed'][0] }}', '{{ travel_mode }}', {{ facility_info[1][travel_mode] }}, this.closest('.card'), '{{ case['Case ID'] }}')">
-          {{ facility_info[0] }}: {{ facility_info[1][travel_mode] }}min ({{ pluralize(case['Facilities'][facility_info[0]]['Bed Count'], 'bed', 'beds') }})
-        </span>
-      </p>
-    {% endif %}
-  {% endfor %}
+  </div>
+  <button class="btn btn-success confirm-btn" style="display: none">
+  </button>
+
+  {% endif %}
 </div>
-{% endmacro %}
+  {% endmacro%}
+

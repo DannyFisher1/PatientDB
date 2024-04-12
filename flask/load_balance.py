@@ -1,4 +1,3 @@
-import logging
 from flask import session
 
 data = {

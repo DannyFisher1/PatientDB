@@ -102,7 +102,7 @@ def skip_case():
     skip_case_id = int(request.args.get('skip_case_id'))
     if 'results' not in session or skip_case_id is None:
         return jsonify({"success": False, "message": "No case ID provided or no results in session."})
-    print('we are here')
+
     results = session['results']
     skipped_case = None
     for case in results:
@@ -174,9 +174,17 @@ def display_results():
     recs = critical_cases + serious_cases + moderate_cases + mild_cases
 
     confirmed = session.get('confirm', [])
+    display_instructions = True
+    if confirmed:
+        print(len(confirmed))
+        display_instructions = False
+        print(display_instructions)
+
+
     recs, unmatched_results = update_facility_lists(recs, confirmed)
 
-    return render_template('critical.html', recs=recs, confirmed=confirmed, unmatched_results=unmatched_results)
+
+    return render_template('critical.html', recs=recs, confirmed=confirmed, unmatched_results=unmatched_results, display_instructions=display_instructions)
 
 
 
@@ -186,6 +194,12 @@ def show_bed_counts():
     # print(beds)
     return render_template('bed_counts.html', bed_counts=beds)
 
+@app.route('/tester')
+def tester():
+    # print(beds)
+    return render_template('c.html')
+
+
 
 def map_facilities(facilities):
     """Maps facility names to 'HCF'+number based on order of appearance."""
@@ -194,6 +208,7 @@ def map_facilities(facilities):
     # Iterate over the facilities, assigning a unique number to each
     for idx, facility in enumerate(facilities, start=1):
         facility_mapping[facility] = f"HCF{idx}"
+        print( facility_mapping[facility])
     return facility_mapping
 
 # Run the Flask app
