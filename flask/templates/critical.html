@@ -303,17 +303,29 @@ function replaceFacilityNamesWithMapping() {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
-  // Replace each facility name in the page
-  let pageHTML = document.body.innerHTML;
-  Object.keys(facilityMapping).forEach(facility => {
-    const regex = new RegExp(escapeRegExp(facility), 'g');
-    pageHTML = pageHTML.replace(regex, facilityMapping[facility]);
+  // Replace each facility name in the visible part of the page
+  document.querySelectorAll('body *').forEach(element => {
+    if (element.childNodes.length) {
+      element.childNodes.forEach(child => {
+        if (child.nodeType === Node.TEXT_NODE) {
+          let textContent = child.textContent;
+          Object.keys(facilityMapping).forEach(facility => {
+            const regex = new RegExp(escapeRegExp(facility), 'g');
+            textContent = textContent.replace(regex, facilityMapping[facility]);
+          });
+          if (textContent !== child.textContent) {
+            const span = document.createElement('span');
+            span.innerHTML = textContent;
+            element.replaceChild(span, child);
+          }
+        }
+      });
+    }
   });
-  document.body.innerHTML = pageHTML;
 }
 
 // Call the function to replace facility names on the page
-replaceFacilityNamesWithMapping(); 
+replaceFacilityNamesWithMapping();
 //*/
 function startIntro() {
   var display = ({{display_instructions|tojson}})

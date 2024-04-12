@@ -184,6 +184,7 @@ def display_results():
     recs, unmatched_results = update_facility_lists(recs, confirmed)
 
 
+
     return render_template('critical.html', recs=recs, confirmed=confirmed, unmatched_results=unmatched_results, display_instructions=display_instructions)
 
 
