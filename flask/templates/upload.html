@@ -44,18 +44,22 @@
             top: 0;
             opacity: 0;
         }
+        .highlight {
+            border-color: #007bff;
+            background-color: #e3f2fd;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="upload-container">
+        <div class="upload-container" id="drop-area">
             <h1>Choose Patient Data</h1>
             <p>Drag and drop or browse your files</p>
             <!-- Upload form -->
-            <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+            <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data" > 
                 <div class="upload-btn-wrapper">
-                    <button class="btn-upload" type="button">Choose File</button>
-                    <input type="file" name="file" onchange="document.getElementById('upload-form').submit();">
+                    <button class="btn-upload" type="button" onclick="document.getElementById('fileElem').click();">Choose File</button>
+                    <input type="file" name="file" id="fileElem" style="display:none" onchange="document.getElementById('upload-form').submit();">
                 </div>
             </form>
         </div>
@@ -65,5 +69,34 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        let dropArea = document.getElementById('drop-area');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => dropArea.classList.add('highlight'), false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => dropArea.classList.remove('highlight'), false);
+        });
+
+        dropArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            let dt = e.dataTransfer;
+            let files = dt.files;
+            document.getElementById('fileElem').files = files;
+            document.getElementById('upload-form').submit();
+        }
+    </script>
 </body>
 </html>

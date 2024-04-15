@@ -1,6 +1,6 @@
 import random
 import logging
-import load_balance as lb
+import functions.load_balance as lb
 
 """
 match_patients(cases,speed)

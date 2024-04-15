@@ -1,4 +1,5 @@
 {% macro get_top(case, is_first) %}
+<!-- display the details-->
 <h5 class="card-header d-flex justify-content-between align-items-center">
   <span>Case ID: {{ case['Case ID'] }} - {{ case['Severity'] }}</span>
   <div class="dropdown">
@@ -64,6 +65,7 @@
       </ul>
     </div>
     {% if case.is_confirmed == false %}
+    <!-- display skip button -->
       <button
         class="btn btn-secondary btn-sm skip-btn"
         data-case-id="{{ case['Case ID'] }}"
@@ -81,6 +83,7 @@
 </style>
 <div class="card-body">
   {% if case.is_confirmed == True %}
+  <!-- if a case is confirmed show that-->
   <div class="post-confirmed">
     Case {{ case['Case ID'] }} assigned to {{ case['confirmed_facility'] }} in
     a {{ case['Bed Types Needed'][0] }} bed with {{ case['mode'] }} transport
@@ -90,6 +93,7 @@
   <div > 
     <div class="d-flex flex-column flex-md-row justify-content-between">
       <div {% if is_first %}data-step="3" data-intro="Here are the Adaquate Ground Facilites"{% endif %}>
+          <!-- display ground times-->
         <h6 class="card-title">Ground Travel:</h6>
         {% for facility_info in case['Travel Time Ground'] %}
         <p class="card-text d-flex align-items-center">
@@ -108,8 +112,7 @@
       </div>
       <div {% if is_first %}data-step="4" data-intro="Here are the Adaquate Air Facilites"{% endif %}>
         <h6 class="card-title">
-         
-          <!-- Non-breaking space to align Air times -->
+          <!-- display air timess-->
           Air Travel:
         </h6>
         {% for facility_info in case['Travel Time Air'] %} {% if

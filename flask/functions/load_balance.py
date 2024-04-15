@@ -63,8 +63,3 @@ def get_bed_num(facility, bed_type):
     else:
         return 0
 
-
-# Check bed percents 
-# if bed.space >x% total space: 
-# pass 
-# switch facilities 

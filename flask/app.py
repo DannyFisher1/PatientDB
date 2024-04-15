@@ -3,12 +3,12 @@ from flask import Flask, flash, jsonify, redirect, request, render_template, ses
 from flask_bootstrap import Bootstrap
 from flask_session import Session
 from werkzeug.utils import secure_filename
-import cases_func as cf
-from convert_patient_data import get_data
-from sort_patients import match_patients, set_traffic_speed, update_facility_lists
+import functions.cases_func as cf
+from functions.convert_patient_data import get_data
+from functions.sort_patients import match_patients, set_traffic_speed, update_facility_lists
 import os
 import pandas as pd
-import load_balance as lb
+import functions.load_balance as lb
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
@@ -54,6 +54,9 @@ def upload_file():
             file.save(filepath)
             process_file(filepath)
             return redirect(url_for('display_results'))
+        
+    confirmed = session.get('confirm', [])
+    
     return render_template('upload.html')
 
 # Function to process uploaded file
@@ -63,17 +66,6 @@ def process_file(filepath):
     traffic_speed = set_traffic_speed()
     session['results'] = results if not isinstance(results, pd.DataFrame) else results.to_dict('records')
     session['traffic_speed'] = traffic_speed if not isinstance(traffic_speed, pd.DataFrame) else traffic_speed.to_dict('records')
-
-# Route to display results
-@app.route('/original', methods=['GET'])
-def display_initial_results():
-    if 'results' not in session:
-        flash('Please upload data first.', 'warning')
-        return redirect(url_for('base'))
-    results = session['results']
-    matched_results = [result for result in results if result.get('Common Recommended Facilities')]
-    unmatched_results = [result for result in results if not result.get('Common Recommended Facilities')]
-    return render_template('original.html', matched_results=matched_results, unmatched_results=unmatched_results)
 
 
 # Route to process confirmed selections
@@ -97,6 +89,7 @@ def process_value():
     lb.update_beds(confirmed_placement)
     return jsonify({"message": "Confirmation data stored successfully."})
 
+# Move case to end of severity
 @app.route('/skip_case')
 def skip_case():
     skip_case_id = int(request.args.get('skip_case_id'))
@@ -185,7 +178,7 @@ def display_results():
 
 
 
-    return render_template('critical.html', recs=recs, confirmed=confirmed, unmatched_results=unmatched_results, display_instructions=display_instructions)
+    return render_template('main.html', recs=recs, confirmed=confirmed, unmatched_results=unmatched_results, display_instructions=display_instructions)
 
 
 
@@ -195,22 +188,8 @@ def show_bed_counts():
     # print(beds)
     return render_template('bed_counts.html', bed_counts=beds)
 
-@app.route('/tester')
-def tester():
-    # print(beds)
-    return render_template('c.html')
 
 
-
-def map_facilities(facilities):
-    """Maps facility names to 'HCF'+number based on order of appearance."""
-    # Initialize an empty dictionary to store the mapping
-    facility_mapping = {}
-    # Iterate over the facilities, assigning a unique number to each
-    for idx, facility in enumerate(facilities, start=1):
-        facility_mapping[facility] = f"HCF{idx}"
-        print( facility_mapping[facility])
-    return facility_mapping
 
 # Run the Flask app
 if __name__ == "__main__":

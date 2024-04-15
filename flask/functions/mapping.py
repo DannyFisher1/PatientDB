@@ -1,4 +1,4 @@
-map= {
+xl_map= {
     'case_id': (3, 3),
     'arrival_severity': (4, 3),
     'gender': (5, 3),

@@ -116,14 +116,16 @@
     </div>
   </nav>
 
-  <!-- Main Content -->
+  <!-- display cases -->
   <div class="container-fluid mt-5">
     <h3 class="mb-3">"Adequate" HCF for All Patients</h3>
     <div class="row">
       {% for case in recs %} {% if case["Facilities"]|length > 0 %}
       <div class="col-md-4 mb-4">
          <div class="card" {% if loop.index == 1 %} data-step="1" data-intro="Each Sample Case is Represented Here"{% endif %}>
+           <!-- show top of card (case number, severity, details, skip)-->
           {{macros.get_top(case, loop.index == 1 )}}
+            <!-- show matching facilities)-->
           {{macros.get_body(case, loop.index == 1)}}
         </div>
         

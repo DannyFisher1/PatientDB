@@ -1,6 +1,6 @@
 import sqlite3
 import openpyxl
-from mapping import map
+from .mapping import xl_map
 import os
 import datetime
 import pandas as pd
@@ -31,7 +31,7 @@ def get_data(xl):
     cursor.execute(create_table_query)
 
     def extract_data_from_sheet(sheet):
-        return [sheet.cell(row=pos[0], column=pos[1]).value for field, pos in map.items()]
+        return [sheet.cell(row=pos[0], column=pos[1]).value for field, pos in xl_map.items()]
     
     print("Processing sheets...")
     for sheet_name in workbook.sheetnames:
