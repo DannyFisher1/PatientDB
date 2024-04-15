@@ -58,13 +58,3 @@ This Flask application is designed to manage and display patient data through a 
    python app.py
    ```
 4. Access the web application via `localhost:5000` in your browser.
-
-## Usage
-
-This application allows users to upload, view, and manage patient data through a series of web interfaces. Data can be uploaded via CSV files and managed through SQL database operations.
-
-## Notes
-
-- Modify SQL scripts in `/database` as per your schema requirements.
-- Update `/static` and `/templates` to customize the look and functionality of the application.
-- Extend functionality in `/functions` as needed for specific use cases.
